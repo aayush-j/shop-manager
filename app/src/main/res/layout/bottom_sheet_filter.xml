@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/spacing_m">
+
+    <TextView
+        android:id="@+id/tvSheetType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter by enquiry category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgTypeSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/tvSheetType"
+        app:layout_constraintTop_toBottomOf="@id/tvSheetType"
+        app:singleSelection="true" />
+
+    <TextView
+        android:id="@+id/tvSheetStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter by status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cgTypeSelector" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgStatusSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/tvSheetStatus"
+        app:layout_constraintTop_toBottomOf="@+id/tvSheetStatus"
+        app:singleLine="true"
+        app:singleSelection="true" />
+
+    <Button
+        android:id="@+id/btnApplyFilter"
+        style="@style/AppTheme.EntryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cgStatusSelector" />
+
+    <Button
+        android:id="@+id/btnResetFilter"
+        style="@style/AppTheme.EntryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        app:layout_constraintEnd_toStartOf="@+id/btnApplyFilter"
+        app:layout_constraintTop_toTopOf="@+id/btnApplyFilter" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

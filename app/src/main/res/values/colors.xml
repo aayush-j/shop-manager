@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#424874</color>
+    <color name="colorPrimaryDark">#393E65</color>
+    <color name="colorAccent">#f8615a</color>
+    <color name="colorBackground">#EFEFEF</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorOpenBg">#C8E6C9</color>
+    <color name="colorOpenStroke">#4CAF50</color>
+    <color name="colorClosedBg">#FFCDD2</color>
+    <color name="colorClosedStroke">#F44336</color>
+    <color name="colorError">#B71C1C</color>
+    <color name="colorTypeBg">#BBDEFB</color>
+    <color name="colorTypeStroke">#1565C0</color>
+    <color name="colorTransparent">@android:color/transparent</color>
+</resources>

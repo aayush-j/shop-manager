@@ -1,0 +1,62 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorSurface">@color/colorWhite</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="colorOnPrimary">@color/colorWhite</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+
+    <style name="AppTheme.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Toolbar.Surface"/>
+
+    <style name="DefaultTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <!--<item name="boxCornerRadiusBottomEnd">@dimen/til_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/til_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/til_corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/til_corner_radius</item>-->
+    </style>
+
+    <style name="DefaultSpinnerLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <!--<item name="boxCornerRadiusBottomEnd">@dimen/til_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/til_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/til_corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/til_corner_radius</item>-->
+    </style>
+
+    <style name="AppTheme.EntryButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:drawableTint">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.HighlightTag">
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="AppTheme.TypeSelectorItem">
+        <item name="android:background">@drawable/radio_selector</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorTypeStroke</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:layout_marginStart">@dimen/spacing_s</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_s</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+</resources>

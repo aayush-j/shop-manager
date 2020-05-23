@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/svFragmentModify"
+    tools:context=".ui.ModifyFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/guideline_margin"
+            app:cardCornerRadius="@dimen/til_corner_radius"
+            app:cardElevation="0dp">
+            <include layout="@layout/modify_personal_card"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/guideline_margin"
+            android:layout_marginEnd="@dimen/guideline_margin"
+            android:layout_marginBottom="@dimen/guideline_margin"
+            app:cardCornerRadius="@dimen/til_corner_radius"
+            app:cardElevation="0dp">
+            <include layout="@layout/modify_enquiry_card"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/guideline_margin"
+            android:layout_marginEnd="@dimen/guideline_margin"
+            android:layout_marginBottom="@dimen/guideline_margin"
+            app:cardCornerRadius="@dimen/til_corner_radius"
+            app:cardElevation="0dp">
+            <include layout="@layout/modify_contact_card"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/btnSaveDetails"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/guideline_margin"
+            android:layout_marginEnd="@dimen/guideline_margin"
+            android:layout_marginBottom="@dimen/guideline_margin"
+            android:text="Save" />
+
+    </LinearLayout>
+
+
+</ScrollView>

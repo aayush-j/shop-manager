@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvModifyContactCardTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Contact"
+        android:padding="@dimen/spacing_m"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPrimContact"
+        style="@style/DefaultTextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Primary Contact"
+        android:layout_marginStart="@dimen/spacing_m"
+        android:layout_marginEnd="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_m"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvModifyContactCardTitle"
+        app:prefixText="@string/prefix_text_code">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPrimContact"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="phone" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSecContact"
+        style="@style/DefaultTextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:hint="Secondary Contact"
+        app:helperText="@string/helper_text_optional"
+        app:layout_constraintEnd_toEndOf="@+id/tilPrimContact"
+        app:layout_constraintStart_toStartOf="@+id/tilPrimContact"
+        app:layout_constraintTop_toBottomOf="@+id/tilPrimContact"
+        app:prefixText="@string/prefix_text_code">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSecContact"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="phone" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:text="WhatsApp Contact"
+        app:layout_constraintEnd_toEndOf="@+id/tilSecContact"
+        app:layout_constraintStart_toStartOf="@+id/tilSecContact"
+        app:layout_constraintTop_toBottomOf="@+id/tilSecContact" />
+
+    <RadioGroup
+        android:id="@+id/rgWhatsApp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbWhatsAppPrim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Same as primary" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbWhatsAppSec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Same as secondary" />
+
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilEmail"
+        style="@style/DefaultTextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:hint="Email"
+        android:layout_marginBottom="@dimen/spacing_m"
+        app:helperText="@string/helper_text_optional"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rgWhatsApp"
+        app:layout_constraintStart_toStartOf="@+id/rgWhatsApp"
+        app:layout_constraintTop_toBottomOf="@+id/rgWhatsApp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

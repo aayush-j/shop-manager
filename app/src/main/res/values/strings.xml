@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">ShopManager</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="helper_text_optional">Optional</string>
+    <string name="prefix_text_code">+91-</string>
+    <string name="welcome_text">
+        No enquiries added\n
+        To create to enquiry, click the button below
+    </string>
+
+    <string-array name="enquiry_types">
+        <item>Modular Kitchen</item>
+        <item>Chimney</item>
+        <item>Gas Stove</item>
+        <item>Repairs and Services</item>
+        <item>Other</item>
+    </string-array>
+</resources>
