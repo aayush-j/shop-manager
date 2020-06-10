@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    tools:context=".ui.CategoryFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategoryItems"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/spacing_m"
+        android:elevation="2dp"
+        android:background="@drawable/category_rv_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCategoryName"
+        tools:itemCount="5"
+        tools:listitem="@layout/category_list_item" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etCategoryName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:background="@drawable/category_rv_bg"
+        android:hint="Enter a category"
+        android:inputType="textPersonName"
+        android:padding="@dimen/spacing_m"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddCategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnAddCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_m"
+        android:background="?attr/colorPrimary"
+        android:padding="@dimen/spacing_s"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="@+id/etCategoryName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etCategoryName" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

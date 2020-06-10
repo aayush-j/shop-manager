@@ -6,14 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeFragment">
 
+    <View
+        android:id="@+id/actionBarHome"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
+        android:padding="14dp"
+        android:src="@drawable/ic_shopmanager"
+        app:layout_constraintBottom_toBottomOf="@+id/actionBarHome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHomeSettings"
+        style="@style/AppTheme.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_settings"
+        app:iconGravity="textStart"
+        app:iconTint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/actionBarHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHomeFilter"
+        style="@style/AppTheme.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_filter"
+        app:iconGravity="textStart"
+        app:iconTint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/actionBarHome"
+        app:layout_constraintEnd_toStartOf="@+id/btnHomeSettings"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHomeItems"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenFilter"
+        app:layout_constraintTop_toBottomOf="@+id/actionBarHome"
+        tools:itemCount="10"
         tools:listitem="@layout/entry_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,37 +71,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddTestEntries"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_m"
-        android:visibility="gone"
-        android:src="@drawable/ic_add_all"
-        app:layout_constraintBottom_toTopOf="@+id/fabNewEntry"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <TextView
         android:id="@+id/tvTotalEnquiries"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_m"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/btnOpenFilter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnOpenFilter"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/actionBarHome"
+        app:layout_constraintEnd_toStartOf="@+id/btnHomeFilter"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Showing 25 enquiries" />
-
-    <Button
-        android:id="@+id/btnOpenFilter"
-        style="@style/AppTheme.EntryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_filter"
-        android:text="Filter"
-        android:layout_marginEnd="@dimen/spacing_m"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvWelcomeText"

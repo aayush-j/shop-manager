@@ -4,7 +4,7 @@ import android.util.Log
 import com.rttc.shopmanager.utilities.LOG_PREFIX
 import java.time.LocalDate
 
-class EntryRepository private constructor(private val entryDao: EntryDao){
+class EntryRepository private constructor(private val entryDao: EntryDao) {
     fun getAllEntries() = entryDao.getAllEntries()
 
     suspend fun insert(entry: Entry) {
@@ -18,15 +18,22 @@ class EntryRepository private constructor(private val entryDao: EntryDao){
 
     suspend fun insertAll(entries: List<Entry>) = entryDao.insertAll(entries)
 
+    suspend fun insertCategory(category: Category) = entryDao.insertCategory(category)
+
+    suspend fun deleteCategory(category: Category) = entryDao.deleteCategory(category)
+
     fun getEntryById(id: Long) = entryDao.getEntryById(id)
 
     fun getEntriesByEnquiryType(enquiryType: String) = entryDao.getEntriesByEnquiryType(enquiryType)
 
     fun getEntriesByStatus(status: String) = entryDao.getEntriesByStatus(status)
 
-    fun getEntriesByFilter(enquiryType: String, status: String) = entryDao.getEntriesByFilter(enquiryType, status)
+    fun getEntriesByFilter(enquiryType: String, status: String) =
+        entryDao.getEntriesByFilter(enquiryType, status)
 
     fun getTableCount() = entryDao.getTableCount()
+
+    fun getAllCategories() = entryDao.getAllCategories()
 
     companion object {
         @Volatile private var INSTANCE: EntryRepository? = null

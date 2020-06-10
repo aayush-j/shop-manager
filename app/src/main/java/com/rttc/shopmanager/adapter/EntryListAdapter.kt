@@ -6,15 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.rttc.shopmanager.R
-import com.rttc.shopmanager.database.Entry
 import com.rttc.shopmanager.database.EntryLite
-import com.rttc.shopmanager.ui.EntryListListener
 import com.rttc.shopmanager.ui.ModifyFragment
 import com.rttc.shopmanager.utilities.ITEM_DATE_FORMAT
 import java.text.SimpleDateFormat
-import java.time.DayOfWeek
 import java.util.*
 
 class EntryListAdapter(private val appContext: Context, private val entryListener: EntryListListener)

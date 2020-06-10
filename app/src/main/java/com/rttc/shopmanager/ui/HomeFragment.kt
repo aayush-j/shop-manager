@@ -1,14 +1,9 @@
 package com.rttc.shopmanager.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -17,10 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.rttc.shopmanager.R
 import com.rttc.shopmanager.adapter.EntryListAdapter
-import com.rttc.shopmanager.database.Entry
+import com.rttc.shopmanager.adapter.EntryListListener
 import com.rttc.shopmanager.utilities.Instances
-import com.rttc.shopmanager.utilities.LOG_PREFIX
-import com.rttc.shopmanager.utilities.SelfTesting
 import com.rttc.shopmanager.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -67,16 +60,7 @@ class HomeFragment : Fragment(), EntryListListener, SearchFilterListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_modifyFragment)
         }
 
-        fabAddTestEntries?.setOnClickListener {
-            val newEntries = mutableListOf<Entry>()
-            for (i in 1..20) {
-                newEntries.add(SelfTesting.getRandomEntry())
-            }
-            homeViewModel.insertAllEnquiries(newEntries.toList())
-            Toast.makeText(requireContext(), "Added 20 more test entries", Toast.LENGTH_SHORT).show()
-        }
-
-        btnOpenFilter?.setOnClickListener {
+        btnHomeFilter?.setOnClickListener {
             val bottomSheet = FilterBottomSheet(
                 this,
                 homeViewModel.enquiryType.value,
@@ -84,6 +68,19 @@ class HomeFragment : Fragment(), EntryListListener, SearchFilterListener {
             )
             bottomSheet.show(parentFragmentManager, "filter_sheet")
         }
+
+        btnHomeSettings?.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_categoryFragment)
+        }
+
+        /*fabAddTestEntries?.setOnClickListener {
+            val newEntries = mutableListOf<Entry>()
+            for (i in 1..20) {
+                newEntries.add(SelfTesting.getRandomEntry())
+            }
+            homeViewModel.insertAllEnquiries(newEntries.toList())
+            Toast.makeText(requireContext(), "Added 20 more test entries", Toast.LENGTH_SHORT).show()
+        }*/
     }
 
     override fun onItemClick(entryId: Long) {

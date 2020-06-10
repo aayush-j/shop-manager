@@ -13,4 +13,5 @@
     <color name="colorTypeBg">#BBDEFB</color>
     <color name="colorTypeStroke">#1565C0</color>
     <color name="colorTransparent">@android:color/transparent</color>
+    <color name="colorOnSurface">#CC000000</color>
 </resources>

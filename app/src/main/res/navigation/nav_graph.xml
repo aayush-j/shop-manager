@@ -24,6 +24,9 @@
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/entryFragment"
@@ -47,4 +50,9 @@
         app:popExitAnim="@anim/slide_out_right"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"/>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.rttc.shopmanager.ui.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
 </navigation>

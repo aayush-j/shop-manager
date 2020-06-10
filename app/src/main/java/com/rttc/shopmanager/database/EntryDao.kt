@@ -34,4 +34,13 @@ interface EntryDao {
 
     @Query("SELECT COUNT(id) from register")
     fun getTableCount(): LiveData<Int>
+
+    @Query("SELECT * FROM category")
+    fun getAllCategories(): LiveData<List<Category>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCategory(category: Category)
+
+    @Delete
+    suspend fun deleteCategory(category: Category)
 }

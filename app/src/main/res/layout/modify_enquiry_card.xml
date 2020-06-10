@@ -7,12 +7,10 @@
 
     <TextView
         android:id="@+id/tvModifyEnquiryCardTitle"
+        style="@style/AppTheme.ModifyCardTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Enquiry"
-        android:padding="@dimen/spacing_m"
-        android:textAllCaps="true"
-        android:textColor="@color/colorWhite"
         android:background="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +24,7 @@
         android:hint="Category"
         android:layout_marginStart="@dimen/spacing_m"
         android:layout_marginEnd="@dimen/spacing_m"
-        android:layout_marginTop="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_s"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvModifyEnquiryCardTitle">
@@ -45,7 +43,7 @@
         style="@style/DefaultTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_s"
         android:layout_marginBottom="@dimen/spacing_m"
         android:hint="Description"
         app:helperText="@string/helper_text_optional"

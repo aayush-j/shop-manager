@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -10,8 +9,12 @@
         <item name="colorSurface">@color/colorWhite</item>
         <item name="colorError">@color/colorError</item>
         <item name="colorOnPrimary">@color/colorWhite</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorOnBackground">@color/colorOnSurface</item>
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="windowActionBar">false</item>
+        <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
+        <item name="android:contextPopupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
@@ -34,6 +37,10 @@
 
     <style name="AppTheme.EntryButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:drawableTint">@color/colorPrimary</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
     </style>
 
     <style name="AppTheme.HighlightTag">
@@ -54,7 +61,38 @@
         <item name="android:textAlignment">center</item>
         <item name="android:textStyle">bold</item>
     </style>
-    
+
+    <style name="AppTheme.EntrySelectableItem">
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="AppTheme.IconButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="AppTheme.ModifyCardTitle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
     <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>

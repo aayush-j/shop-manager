@@ -7,12 +7,10 @@
 
     <TextView
         android:id="@+id/tvModifyPersonalCardTitle"
+        style="@style/AppTheme.ModifyCardTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Personal"
-        android:textAllCaps="true"
-        android:padding="@dimen/spacing_m"
-        android:textColor="@color/colorWhite"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +24,7 @@
         android:hint="Name"
         android:layout_marginStart="@dimen/spacing_m"
         android:layout_marginEnd="@dimen/spacing_m"
-        android:layout_marginTop="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_s"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvModifyPersonalCardTitle">
@@ -44,7 +42,7 @@
         style="@style/DefaultTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_s"
         android:hint="Address"
         android:layout_marginBottom="@dimen/spacing_m"
         app:layout_constraintBottom_toBottomOf="parent"
