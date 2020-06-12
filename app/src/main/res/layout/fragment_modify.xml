@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/svFragmentModify"
+    android:background="@color/colorBackground"
     tools:context=".ui.ModifyFragment">
 
     <LinearLayout
@@ -43,9 +44,9 @@
             <include layout="@layout/modify_contact_card"/>
         </com.google.android.material.card.MaterialCardView>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveDetails"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            style="@style/DefaultButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/guideline_margin"

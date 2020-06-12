@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    tools:context=".onboarding.WelcomeFragment">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_shopmanager"
+        app:layout_constraintBottom_toTopOf="@+id/btnWelcomeCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnWelcomeCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_s"
+        android:backgroundTint="?attr/colorAccent"
+        android:padding="@dimen/padding_button"
+        android:text="Fresh start"
+        app:icon="@drawable/ic_arrow_right"
+        app:iconGravity="end"
+        app:layout_constraintBottom_toTopOf="@+id/btnWelcomeLoadBackup"
+        app:layout_constraintEnd_toEndOf="@+id/btnWelcomeLoadBackup"
+        app:layout_constraintStart_toStartOf="@+id/btnWelcomeLoadBackup" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnWelcomeLoadBackup"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_button"
+        android:layout_margin="@dimen/spacing_m"
+        android:text="Restore local backup"
+        app:icon="@drawable/ic_restore"
+        app:iconGravity="end"
+        app:strokeColor="?attr/colorAccent"
+        android:textColor="?attr/colorAccent"
+        app:iconTint="?attr/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

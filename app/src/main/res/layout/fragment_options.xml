@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".onboarding.OptionsFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnManageCategory"
+        style="@style/AppTheme.EntryButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Manage category"
+        android:textAlignment="textStart"
+        app:icon="@drawable/ic_category"
+        app:iconPadding="@dimen/spacing_m"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBackupAndRestore"
+        style="@style/AppTheme.EntryButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Backup and restore"
+        android:textAlignment="textStart"
+        app:icon="@drawable/ic_restore"
+        app:iconPadding="@dimen/spacing_m"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnManageCategory" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

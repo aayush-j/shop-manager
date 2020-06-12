@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ui.HomeFragment">
 
     <View
@@ -26,11 +27,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnHomeSettings"
+        android:id="@+id/btnHomeOptions"
         style="@style/AppTheme.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@drawable/ic_settings"
+        app:icon="@drawable/ic_open"
         app:iconGravity="textStart"
         app:iconTint="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="@+id/actionBarHome"
@@ -46,7 +47,7 @@
         app:iconGravity="textStart"
         app:iconTint="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="@+id/actionBarHome"
-        app:layout_constraintEnd_toStartOf="@+id/btnHomeSettings"
+        app:layout_constraintEnd_toStartOf="@+id/btnHomeOptions"
         app:layout_constraintTop_toTopOf="parent" />
 
 

@@ -1,21 +1,30 @@
 package com.rttc.shopmanager.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.os.FileUtils
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Database
+import com.rttc.shopmanager.MainActivity
 
 import com.rttc.shopmanager.R
 import com.rttc.shopmanager.adapter.EntryListAdapter
 import com.rttc.shopmanager.adapter.EntryListListener
+import com.rttc.shopmanager.onboarding.WelcomeFragment
+import com.rttc.shopmanager.utilities.DatabaseHelper
 import com.rttc.shopmanager.utilities.Instances
 import com.rttc.shopmanager.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.io.IOException
 
 class HomeFragment : Fragment(), EntryListListener, SearchFilterListener {
 
@@ -57,7 +66,7 @@ class HomeFragment : Fragment(), EntryListListener, SearchFilterListener {
         })
 
         fabNewEntry?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeFragment_to_modifyFragment)
+            NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_modifyFragment)
         }
 
         btnHomeFilter?.setOnClickListener {
@@ -69,8 +78,8 @@ class HomeFragment : Fragment(), EntryListListener, SearchFilterListener {
             bottomSheet.show(parentFragmentManager, "filter_sheet")
         }
 
-        btnHomeSettings?.setOnClickListener {
-            NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_categoryFragment)
+        btnHomeOptions?.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_optionsFragment)
         }
 
         /*fabAddTestEntries?.setOnClickListener {

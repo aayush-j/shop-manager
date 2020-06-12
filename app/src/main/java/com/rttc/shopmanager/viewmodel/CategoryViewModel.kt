@@ -24,7 +24,7 @@ class CategoryViewModel(
     fun delete(category: Category) {
         viewModelScope.launch(Dispatchers.IO) {
             entryRepository.deleteCategory(category)
+            entryRepository.deleteAllByCategory(category.title)
         }
     }
-
 }

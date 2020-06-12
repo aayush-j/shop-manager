@@ -1,16 +1,21 @@
 package com.rttc.shopmanager.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.rttc.shopmanager.R
-import com.rttc.shopmanager.utilities.LOG_PREFIX
+import com.rttc.shopmanager.database.Category
+import com.rttc.shopmanager.database.ShopDatabase
 import com.rttc.shopmanager.utilities.TYPE_ALL
 import kotlinx.android.synthetic.main.bottom_sheet_filter.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FilterBottomSheet(
     private val filterListener: SearchFilterListener,
@@ -29,7 +34,10 @@ class FilterBottomSheet(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addViewsToTypeSelector()
+        CoroutineScope(IO).launch {
+            setCategoriesToChips()
+        }
+
         cgTypeSelector.setOnCheckedChangeListener { _, checkedId ->
             enquiryType = if (checkedId == -1) {
                 TYPE_ALL
@@ -59,9 +67,18 @@ class FilterBottomSheet(
         }
     }
 
-    private fun addViewsToTypeSelector() {
-        val types = arrayListOf<String>()
-        types.addAll(requireContext().resources.getStringArray(R.array.enquiry_types))
+    private suspend fun setCategoriesToChips() {
+        val categories = getCategoriesFromDb()
+        withContext(Main) {
+            addViewsToTypeSelector(categories)
+        }
+    }
+
+    private suspend fun getCategoriesFromDb(): List<String> {
+        return ShopDatabase.getInstance(requireContext()).entryDao().getCategoryList()
+    }
+
+    private fun addViewsToTypeSelector(types: List<String>) {
         var i = 100
         types.forEach {
             val chip = createChipWithId(i++)

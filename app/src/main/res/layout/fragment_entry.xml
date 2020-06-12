@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ui.EntryFragment">
 
     <View
@@ -101,20 +102,20 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCloseEnquiry"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                style="@style/DefaultButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_m"
                 android:layout_marginBottom="@dimen/spacing_m"
                 android:text="Close Enquiry"
+                app:icon="@drawable/ic_close"
+                app:iconGravity="textStart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/mcvEntryOptions"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/mcvEntryOptions" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

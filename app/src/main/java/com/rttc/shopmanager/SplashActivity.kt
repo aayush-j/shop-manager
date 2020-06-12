@@ -1,8 +1,11 @@
 package com.rttc.shopmanager
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.rttc.shopmanager.utilities.PREFS_NAME
+import com.rttc.shopmanager.utilities.PREF_ONBOARDING
 
 class SplashActivity : AppCompatActivity() {
 
@@ -10,7 +13,11 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        startActivity(Intent(this, MainActivity::class.java))
+        val preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        if (!preferences.contains(PREF_ONBOARDING))
+            startActivity(Intent(this, OnBoardingActivity::class.java))
+        else
+            startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 }

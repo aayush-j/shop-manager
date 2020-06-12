@@ -21,11 +21,11 @@
         style="@style/DefaultSpinnerLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Category"
         android:layout_marginStart="@dimen/spacing_m"
-        android:layout_marginEnd="@dimen/spacing_m"
         android:layout_marginTop="@dimen/spacing_s"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/spacing_s"
+        android:hint="Category"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddCategoryExt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvModifyEnquiryCardTitle">
 
@@ -38,6 +38,19 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddCategoryExt"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_m"
+        android:text="Add"
+        app:icon="@drawable/ic_add"
+        app:iconGravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/tilEnquiryType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tilEnquiryType" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEnquiryDetail"
         style="@style/DefaultTextInputLayout"
@@ -48,7 +61,7 @@
         android:hint="Description"
         app:helperText="@string/helper_text_optional"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tilEnquiryType"
+        app:layout_constraintEnd_toEndOf="@+id/btnAddCategoryExt"
         app:layout_constraintStart_toStartOf="@+id/tilEnquiryType"
         app:layout_constraintTop_toBottomOf="@+id/tilEnquiryType">
 

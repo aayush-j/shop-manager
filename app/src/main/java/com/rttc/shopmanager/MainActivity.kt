@@ -9,6 +9,7 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.rttc.shopmanager.database.Entry
+import com.rttc.shopmanager.utilities.DatabaseHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        DatabaseHelper.verifyStoragePermissions(this)
         //setStatusBarLight()
     }
 

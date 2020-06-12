@@ -9,4 +9,5 @@
     <dimen name="card_icon_margin_s">8dp</dimen>
     <dimen name="card_icon_margin_m">16dp</dimen>
     <dimen name="til_corner_radius">12dp</dimen>
+    <dimen name="padding_button">16dp</dimen>
 </resources>

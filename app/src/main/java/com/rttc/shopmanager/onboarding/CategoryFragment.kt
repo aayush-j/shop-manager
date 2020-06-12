@@ -1,5 +1,7 @@
-package com.rttc.shopmanager.ui
+package com.rttc.shopmanager.onboarding
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -10,11 +12,16 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.rttc.shopmanager.MainActivity
+import com.rttc.shopmanager.OnBoardingActivity
 import com.rttc.shopmanager.R
 import com.rttc.shopmanager.adapter.CategoryListAdapter
 import com.rttc.shopmanager.adapter.CategoryListListener
 import com.rttc.shopmanager.database.Category
 import com.rttc.shopmanager.utilities.Instances
+import com.rttc.shopmanager.utilities.PREFS_NAME
+import com.rttc.shopmanager.utilities.PREF_ONBOARDING
 import com.rttc.shopmanager.viewmodel.CategoryViewModel
 import kotlinx.android.synthetic.main.fragment_category.*
 
@@ -50,9 +57,32 @@ class CategoryFragment : Fragment(), CategoryListListener {
             else
                 Toast.makeText(requireContext(), "Please enter a category name", Toast.LENGTH_SHORT).show()
         }
+
+        val preferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        if (!preferences.contains(PREF_ONBOARDING))
+            btnCompleteOnBoarding?.visibility = View.VISIBLE
+        else
+            btnCompleteOnBoarding?.visibility = View.GONE
+
+        btnCompleteOnBoarding?.setOnClickListener {
+            preferences.edit()
+                .putBoolean(PREF_ONBOARDING, true)
+                .apply()
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+            requireActivity().finish()
+        }
     }
 
     override fun onButtonClick(category: Category) {
-        categoryViewModel.delete(category)
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Warning")
+            .setMessage("All enquiries of ${category.title} will also be deleted. Do you still want to proceed?")
+            .setNegativeButton("No") { _, _ ->
+
+            }
+            .setPositiveButton("Yes") { _, _ ->
+                categoryViewModel.delete(category)
+            }
+            .show()
     }
 }

@@ -15,16 +15,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.rttc.shopmanager.R
+import com.rttc.shopmanager.database.Category
 import com.rttc.shopmanager.database.Entry
+import com.rttc.shopmanager.database.ShopDatabase
 import com.rttc.shopmanager.utilities.Instances
 import com.rttc.shopmanager.viewmodel.ModifyViewModel
 import kotlinx.android.synthetic.main.fragment_modify.*
 import kotlinx.android.synthetic.main.modify_contact_card.*
 import kotlinx.android.synthetic.main.modify_enquiry_card.*
 import kotlinx.android.synthetic.main.modify_personal_card.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 
@@ -52,13 +60,9 @@ class ModifyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val arrayAdapter = ArrayAdapter(
-            requireContext(),
-            R.layout.spinner_item,
-            resources.getStringArray(R.array.enquiry_types)
-        )
-        spinnerEnquiryType?.setAdapter(arrayAdapter)
-        spinnerEnquiryType?.setText(resources.getStringArray(R.array.enquiry_types)[0], false)
+        CoroutineScope(IO).launch {
+            setCategoriesToSpinner()
+        }
 
         var newEntry = Entry()
         modifyViewModel.getEntry().observe(viewLifecycleOwner, Observer{entry ->
@@ -94,6 +98,10 @@ class ModifyFragment : Fragment() {
                 displayError(tilEmail, false)
             }
         }
+
+        btnAddCategoryExt.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(R.id.action_modifyFragment_to_categoryFragment)
+        }
         
         btnSaveDetails.setOnClickListener {
             if (isDataValid() && isRadioValid()) {
@@ -128,6 +136,33 @@ class ModifyFragment : Fragment() {
                 hideSoftKeyboard(it)
             }
         }
+    }
+
+    private suspend fun setCategoriesToSpinner() {
+        val categories = getCategoriesFromDb()
+        withContext(Dispatchers.Main) {
+            addCategoriesToSpinner(categories)
+        }
+    }
+
+    private fun addCategoriesToSpinner(categories: List<String>) {
+        if (categories.isNotEmpty()) {
+            val arrayAdapter = ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_item,
+                categories
+            )
+            spinnerEnquiryType?.isEnabled = true
+            spinnerEnquiryType?.setAdapter(arrayAdapter)
+            spinnerEnquiryType?.setText(categories[0], false)
+        }
+        else {
+            spinnerEnquiryType?.isEnabled = false
+        }
+    }
+
+    private suspend fun getCategoriesFromDb(): List<String> {
+        return ShopDatabase.getInstance(requireContext()).entryDao().getCategoryList()
     }
 
     private fun hideSoftKeyboard(view: View) {

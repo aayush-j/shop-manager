@@ -16,6 +16,8 @@ class EntryRepository private constructor(private val entryDao: EntryDao) {
 
     suspend fun delete(entry: Entry) = entryDao.delete(entry)
 
+    suspend fun deleteAllByCategory(category: String) = entryDao.deleteAllByCategory(category)
+
     suspend fun insertAll(entries: List<Entry>) = entryDao.insertAll(entries)
 
     suspend fun insertCategory(category: Category) = entryDao.insertCategory(category)

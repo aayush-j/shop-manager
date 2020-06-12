@@ -20,6 +20,9 @@ interface EntryDao {
     @Delete
     suspend fun delete(entry: Entry)
 
+    @Query("DELETE from register WHERE enquiry_type = :category")
+    suspend fun deleteAllByCategory(category: String)
+
     @Query("SELECT * FROM register WHERE id = :id")
     fun getEntryById(id: Long): LiveData<Entry>
 
@@ -37,6 +40,9 @@ interface EntryDao {
 
     @Query("SELECT * FROM category")
     fun getAllCategories(): LiveData<List<Category>>
+
+    @Query("SELECT title FROM category")
+    fun getCategoryList(): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCategory(category: Category)
