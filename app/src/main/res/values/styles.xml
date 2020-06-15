@@ -19,9 +19,12 @@
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+    <style name="AppTheme.ToolbarOverlay" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
 
-    <style name="AppTheme.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Toolbar.Surface"/>
+    </style>
 
     <style name="DefaultTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxCornerRadiusBottomEnd">@dimen/til_corner_radius</item>

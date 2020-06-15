@@ -2,6 +2,7 @@ package com.rttc.shopmanager.onboarding
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.rttc.shopmanager.R
+import com.rttc.shopmanager.SplashActivity
 import com.rttc.shopmanager.database.ShopDatabase
 import com.rttc.shopmanager.utilities.DatabaseHelper
 import kotlinx.android.synthetic.main.fragment_data_manager.*
@@ -39,34 +41,6 @@ class DataManagerFragment : Fragment() {
 //            Intent.createChooser(intent, "Choose backup file"),
 //            RESTORE_REQUEST_CODE
 //        )
-
-        btnRestoreBackup?.setOnClickListener {
-            val permission = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-            if (permission == PackageManager.PERMISSION_GRANTED) {
-                if (DatabaseHelper.restoreLocalBackup(requireContext())){
-                    showToast("Restore successful. App will automatically closed.")
-                    requireActivity().finish()
-                }
-                else
-                    showToast("Restore failed")
-            }
-            else {
-                showToast("Please provide storage permissions")
-            }
-        }
-
-        btnCreateBackup?.setOnClickListener {
-            val permission = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            if (permission == PackageManager.PERMISSION_GRANTED) {
-                if (DatabaseHelper.createLocalBackup(requireContext()))
-                    showToast("Backup created")
-                else
-                    showToast("Backup failed")
-            }
-            else {
-                showToast("Please provide storage permissions")
-            }
-        }
 
     }
 

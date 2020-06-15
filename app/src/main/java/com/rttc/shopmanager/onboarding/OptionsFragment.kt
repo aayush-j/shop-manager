@@ -21,13 +21,5 @@ class OptionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        btnManageCategory?.setOnClickListener {
-            NavHostFragment.findNavController(this).navigate(R.id.action_optionsFragment_to_categoryFragment)
-        }
-
-        btnBackupAndRestore?.setOnClickListener {
-            NavHostFragment.findNavController(this).navigate(R.id.action_optionsFragment_to_dataManagerFragment)
-        }
     }
 }

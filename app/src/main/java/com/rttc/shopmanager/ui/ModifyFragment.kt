@@ -64,12 +64,19 @@ class ModifyFragment : Fragment() {
             setCategoriesToSpinner()
         }
 
+        modifyActionBar?.setNavigationOnClickListener {
+            NavHostFragment.findNavController(this).popBackStack()
+        }
+
         var newEntry = Entry()
         modifyViewModel.getEntry().observe(viewLifecycleOwner, Observer{entry ->
             if (entry != null) {
+                modifyActionBar?.title = "Edit enquiry"
                 setupData(entry)
                 newEntry = entry
             }
+            else
+                modifyActionBar?.title = "New enquiry"
         })
 
         etPrimContact.doOnTextChanged { text, _, _, _ ->

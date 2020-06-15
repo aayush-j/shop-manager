@@ -3,7 +3,6 @@ package com.rttc.shopmanager.viewmodel
 import androidx.arch.core.util.Function
 import androidx.lifecycle.*
 import com.rttc.shopmanager.database.Entry
-import com.rttc.shopmanager.database.EntryLite
 import com.rttc.shopmanager.database.EntryRepository
 import com.rttc.shopmanager.ui.FilterLiveData
 import com.rttc.shopmanager.utilities.TYPE_ALL
@@ -17,7 +16,7 @@ class HomeViewModel(private val entryRepository: EntryRepository)
     val statusType: MutableLiveData<String> = MutableLiveData(TYPE_ALL)
     private val filter =
         FilterLiveData(enquiryType, statusType)
-    val entryList: LiveData<List<EntryLite>>
+    val entryList: LiveData<List<Entry>>
 
     fun insertAllEnquiries(entries: List<Entry>) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -37,5 +36,4 @@ class HomeViewModel(private val entryRepository: EntryRepository)
                 entryRepository.getEntriesByFilter(it.first, it.second)
         })
     }
-
 }

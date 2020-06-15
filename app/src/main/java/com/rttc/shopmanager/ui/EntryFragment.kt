@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -49,6 +50,10 @@ class EntryFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        entryActionBar?.setNavigationOnClickListener {
+            NavHostFragment.findNavController(this).popBackStack()
+        }
+
         setButtonListeners()
         entryViewModel.entry.observe(viewLifecycleOwner, Observer { entry ->
             if (entry != null) {
@@ -73,7 +78,7 @@ class EntryFragment : Fragment(), View.OnClickListener {
 
     private fun populateUi(entry: Entry) {
         entry.let {
-            tvEntryName.text = it.name
+            entryActionBar?.title = it.name
             tvEntryAddress.text = it.address
             tvEntryContactPrim.text = it.primaryContact
             tvEntryType.text = it.enquiryType

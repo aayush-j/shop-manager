@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
     tools:context=".onboarding.WelcomeFragment">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_shopmanager"
@@ -19,11 +19,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnWelcomeCategory"
+        style="@style/DefaultButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_s"
-        android:backgroundTint="?attr/colorAccent"
-        android:padding="@dimen/padding_button"
         android:text="Fresh start"
         app:icon="@drawable/ic_arrow_right"
         app:iconGravity="end"
@@ -36,16 +34,12 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_button"
         android:layout_margin="@dimen/spacing_m"
-        android:text="Restore local backup"
-        app:icon="@drawable/ic_restore"
-        app:iconGravity="end"
-        app:strokeColor="?attr/colorAccent"
-        android:textColor="?attr/colorAccent"
-        app:iconTint="?attr/colorAccent"
+        android:padding="@dimen/padding_button"
+        android:text="Restore from backup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="?attr/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

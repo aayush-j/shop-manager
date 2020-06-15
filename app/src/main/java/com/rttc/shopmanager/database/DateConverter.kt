@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DateConverter {
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+    /*private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
 
     @TypeConverter
     fun fromTimestamp(value: String?): Date? {
@@ -30,5 +30,19 @@ class DateConverter {
         dateFormat.timeZone = timeZone
         return if (value == null) null
         else dateFormat.format(value)
+    }*/
+
+    @TypeConverter
+    fun toDate(value: Long?): Date? {
+        if (value == null)
+            return null
+        return Date(value)
+    }
+
+    @TypeConverter
+    fun toLong(value: Date?): Long? {
+        if (value == null)
+            return null
+        return value.time
     }
 }

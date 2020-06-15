@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,30 +7,44 @@
     android:background="@color/colorBackground"
     tools:context=".onboarding.OptionsFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/optionsActionBar"
+            style="@style/AppTheme.ToolbarOverlay"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="Options"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnManageCategory"
         style="@style/AppTheme.EntryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_category"
         android:text="Manage category"
-        android:textAlignment="textStart"
-        app:icon="@drawable/ic_category"
-        app:iconPadding="@dimen/spacing_m"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBackupAndRestore"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBackupAndRestore"
         style="@style/AppTheme.EntryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_restore"
         android:text="Backup and restore"
-        android:textAlignment="textStart"
-        app:icon="@drawable/ic_restore"
-        app:iconPadding="@dimen/spacing_m"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnManageCategory" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnManageCategory"
+        app:layout_constraintTop_toTopOf="@+id/btnManageCategory" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

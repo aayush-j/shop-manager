@@ -1,60 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/svFragmentModify"
     android:background="@color/colorBackground"
     tools:context=".ui.ModifyFragment">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/modifyActionBar"
+            style="@style/AppTheme.ToolbarOverlay"
+            app:navigationIcon="@drawable/ic_back" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/svFragmentModify"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/guideline_margin"
-            app:cardCornerRadius="@dimen/til_corner_radius"
-            app:cardElevation="0dp">
-            <include layout="@layout/modify_personal_card"/>
-        </com.google.android.material.card.MaterialCardView>
+            android:orientation="vertical">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/guideline_margin"
-            android:layout_marginEnd="@dimen/guideline_margin"
-            android:layout_marginBottom="@dimen/guideline_margin"
-            app:cardCornerRadius="@dimen/til_corner_radius"
-            app:cardElevation="0dp">
-            <include layout="@layout/modify_enquiry_card"/>
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/guideline_margin"
+                app:cardCornerRadius="@dimen/til_corner_radius"
+                app:cardElevation="0dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/guideline_margin"
-            android:layout_marginEnd="@dimen/guideline_margin"
-            android:layout_marginBottom="@dimen/guideline_margin"
-            app:cardCornerRadius="@dimen/til_corner_radius"
-            app:cardElevation="0dp">
-            <include layout="@layout/modify_contact_card"/>
-        </com.google.android.material.card.MaterialCardView>
+                <include layout="@layout/modify_personal_card" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSaveDetails"
-            style="@style/DefaultButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/guideline_margin"
-            android:layout_marginEnd="@dimen/guideline_margin"
-            android:layout_marginBottom="@dimen/guideline_margin"
-            android:text="Save" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/guideline_margin"
+                android:layout_marginEnd="@dimen/guideline_margin"
+                android:layout_marginBottom="@dimen/guideline_margin"
+                app:cardCornerRadius="@dimen/til_corner_radius"
+                app:cardElevation="0dp">
 
-    </LinearLayout>
+                <include layout="@layout/modify_enquiry_card" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/guideline_margin"
+                android:layout_marginEnd="@dimen/guideline_margin"
+                android:layout_marginBottom="@dimen/guideline_margin"
+                app:cardCornerRadius="@dimen/til_corner_radius"
+                app:cardElevation="0dp">
+
+                <include layout="@layout/modify_contact_card" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveDetails"
+                style="@style/DefaultButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/guideline_margin"
+                android:layout_marginEnd="@dimen/guideline_margin"
+                android:layout_marginBottom="@dimen/guideline_margin"
+                android:text="Save" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

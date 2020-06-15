@@ -3,6 +3,7 @@ package com.rttc.shopmanager.utilities
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Environment
 import android.os.FileUtils
 import android.util.Log
 import android.widget.Toast
@@ -18,6 +19,10 @@ class DatabaseHelper {
         const val BACKUP_NEW = "backup_type_new"
         const val BACKUP_RESTORE = "backup_type_restore"
         private const val DB_TEMP = "backup_restore_temp"
+
+        const val SUCCESS = "backup_success"
+        const val FAILED = "backup_failed"
+        const val DIR_NA = "directory_not_available"
 
         fun verifyStoragePermissions(appCompatActivity: AppCompatActivity) {
             val requestCode = 1;
@@ -42,62 +47,72 @@ class DatabaseHelper {
             }
         }
 
-        fun createBackupDirectory(context: Context) {
-            val appDir = File(ContextCompat.getExternalFilesDirs(context, null)[0], APP_DIR)
+        fun createBackupDirectory(context: Context): File? {
+            val appDir = File(Environment.getExternalStorageDirectory(), APP_DIR)
+            //val appDir = File(ContextCompat.getExternalFilesDirs(context, null)[0], APP_DIR)
             if (!appDir.exists()){
-                if (!appDir.mkdir())
+                if (!appDir.mkdir()) {
                     Log.d(LOG_PREFIX, "Unable to create directory")
-                else
-                    Log.d(LOG_PREFIX, "Backup directory created successfully")
+                    return null
+                }
+                else {
+                    Log.d(LOG_PREFIX, "Backup directory created at ${appDir.absolutePath}")
+                }
             }
             else
                 Log.d(LOG_PREFIX, "Backup directory already exist")
+            return appDir
         }
 
-        fun createLocalBackup(context: Context): Boolean {
+        fun createLocalBackup(context: Context): String {
             ShopDatabase.getInstance(context).close()
             val db = context.getDatabasePath(DB_NAME)
             val dbShm = File(db.parent!!, DB_NAME.plus("-shm"))
             val dbWal = File(db.parent!!, DB_NAME.plus("-wal"))
 
-            val appDir = File(ContextCompat.getExternalFilesDirs(context, null)[0], APP_DIR)
-            createBackupDirectory(context)
-            val dbBackup = File(appDir.absolutePath, DB_NAME)
-            val dbShmBackup = File(dbBackup.parent!!, DB_NAME.plus("-shm"))
-            val dbWalBackup = File(dbBackup.parent!!, DB_NAME.plus("-wal"))
+            val appDir = createBackupDirectory(context)
+            appDir?.let {
+                val dbBackup = File(it.absolutePath, DB_NAME)
+                val dbShmBackup = File(dbBackup.parent!!, DB_NAME.plus("-shm"))
+                val dbWalBackup = File(dbBackup.parent!!, DB_NAME.plus("-wal"))
 
-            try {
-                copy(db, dbBackup)
-                copy(dbShm, dbShmBackup)
-                copy(dbWal, dbWalBackup)
-                return true
-            } catch (e: Exception) {
-                e.printStackTrace()
+                try {
+                    copy(db, dbBackup)
+                    copy(dbShm, dbShmBackup)
+                    copy(dbWal, dbWalBackup)
+                    Log.d(LOG_PREFIX, "Backup created at ${it.absolutePath}")
+                    return SUCCESS
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
-            return false
+            return FAILED
         }
 
-        fun restoreLocalBackup(context: Context): Boolean {
+        fun restoreLocalBackup(context: Context): String {
             ShopDatabase.getInstance(context).close()
             val db = context.getDatabasePath(DB_NAME)
             val dbShm = File(db.parent!!, DB_NAME.plus("-shm"))
             val dbWal = File(db.parent!!, DB_NAME.plus("-wal"))
 
-            val appDir = File(ContextCompat.getExternalFilesDirs(context, null)[0], APP_DIR)
-            createBackupDirectory(context)
-            val dbBackup = File(appDir.absolutePath, DB_NAME)
-            val dbShmBackup = File(dbBackup.parent!!, DB_NAME.plus("-shm"))
-            val dbWalBackup = File(dbBackup.parent!!, DB_NAME.plus("-wal"))
+            val appDir = createBackupDirectory(context)
+            appDir?.let {
+                val dbBackup = File(it.absolutePath, DB_NAME)
+                val dbShmBackup = File(dbBackup.parent!!, DB_NAME.plus("-shm"))
+                val dbWalBackup = File(dbBackup.parent!!, DB_NAME.plus("-wal"))
+                if (!dbBackup.exists() || !dbShmBackup.exists() || !dbWalBackup.exists())
+                    return DIR_NA
 
-            try {
-                copy(dbBackup, db)
-                copy(dbShmBackup, dbShm)
-                copy(dbWalBackup, dbWal)
-                return true
-            } catch (e: Exception) {
-                e.printStackTrace()
+                try {
+                    copy(dbBackup, db)
+                    copy(dbShmBackup, dbShm)
+                    copy(dbWalBackup, dbWal)
+                    return SUCCESS
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
-            return false
+            return FAILED
         }
 
         @Throws(IOException::class)

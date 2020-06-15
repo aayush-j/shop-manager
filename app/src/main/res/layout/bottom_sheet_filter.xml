@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Filter by enquiry category"
+        android:textColor="?attr/colorOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Filter by status"
+        android:textColor="?attr/colorOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cgTypeSelector" />
 
@@ -40,7 +42,7 @@
         app:singleLine="true"
         app:singleSelection="true" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnApplyFilter"
         style="@style/AppTheme.EntryButton"
         android:layout_width="wrap_content"
