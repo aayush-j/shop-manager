@@ -3,6 +3,7 @@ package com.rttc.shopmanager.utilities
 import android.content.Context
 import com.rttc.shopmanager.database.EntryRepository
 import com.rttc.shopmanager.database.ShopDatabase
+import com.rttc.shopmanager.viewmodel.CategoryViewModelFactory
 import com.rttc.shopmanager.viewmodel.EntryViewModelFactory
 import com.rttc.shopmanager.viewmodel.HomeViewModelFactory
 import com.rttc.shopmanager.viewmodel.ModifyViewModelFactory
@@ -19,4 +20,7 @@ object Instances {
 
     fun provideModifyViewModelFactory(context: Context, entryId: Long) =
         ModifyViewModelFactory(getEntryRepository(context), entryId)
+
+    fun provideCategoryViewModelFactory(context: Context) =
+        CategoryViewModelFactory(getEntryRepository(context))
 }

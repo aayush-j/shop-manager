@@ -1,79 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="@dimen/guideline_margin">
-
-    <ImageView
-        android:id="@+id/ivEntryAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/tvEntryAddress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_address" />
-
-    <ImageView
-        android:id="@+id/ivEntryContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/tvEntryContactPrim"
-        app:layout_constraintStart_toStartOf="@+id/ivEntryAddress"
-        app:layout_constraintTop_toTopOf="@+id/tvEntryContactPrim"
-        app:srcCompat="@drawable/ic_contact" />
-
-    <ImageView
-        android:id="@+id/ivEntryEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/tvEntryEmail"
-        app:layout_constraintStart_toStartOf="@+id/ivEntryContact"
-        app:layout_constraintTop_toTopOf="@+id/tvEntryEmail"
-        app:srcCompat="@drawable/ic_email" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tvEntryAddress"
+        style="@style/AppTheme.EntrySelectableItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_icon_margin_s"
+        android:drawableStart="@drawable/ic_address"
+        android:clickable="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivEntryAddress"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="84, Prince Street, New York" />
 
     <TextView
         android:id="@+id/tvEntryContactPrim"
+        style="@style/AppTheme.EntrySelectableItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_icon_margin_s"
-        android:layout_marginTop="@dimen/card_icon_margin_m"
-        app:layout_constraintStart_toEndOf="@+id/ivEntryContact"
+        android:drawableStart="@drawable/ic_contact"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:clickable="true"
+        app:layout_constraintEnd_toStartOf="@+id/btnWhatsAppPrim"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvEntryAddress"
         tools:text="7867867754" />
 
     <TextView
+        android:id="@+id/btnWhatsAppPrim"
+        style="@style/AppTheme.EntrySelectableItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_whatsapp"
+        android:drawableTint="@color/colorOpenStroke"
+        android:drawablePadding="0dp"
+        android:visibility="gone"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/tvEntryContactPrim"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvEntryContactPrim" />
+
+
+    <TextView
         android:id="@+id/tvEntryContactSec"
+        style="@style/AppTheme.EntrySelectableItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_icon_margin_s"
+        android:drawableStart="@drawable/ic_contact"
+        android:drawableEnd="@drawable/ic_arrow_right"
         android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@+id/tvEntryContactPrim"
-        app:layout_constraintTop_toTopOf="@+id/tvEntryContactPrim"
+        android:clickable="true"
+        app:layout_constraintEnd_toStartOf="@+id/btnWhatsAppSec"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEntryContactPrim"
         tools:text="8709704422" />
 
     <TextView
+        android:id="@+id/btnWhatsAppSec"
+        style="@style/AppTheme.EntrySelectableItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:clickable="true"
+        android:drawableStart="@drawable/ic_whatsapp"
+        android:drawablePadding="0dp"
+        android:drawableTint="@color/colorOpenStroke"
+        app:layout_constraintBottom_toBottomOf="@+id/tvEntryContactSec"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvEntryContactSec" />
+
+
+    <TextView
         android:id="@+id/tvEntryEmail"
+        style="@style/AppTheme.EntrySelectableItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_icon_margin_s"
-        android:layout_marginTop="@dimen/card_icon_margin_m"
+        android:drawableStart="@drawable/ic_email"
+        android:drawableEnd="@drawable/ic_arrow_right"
         android:visibility="gone"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivEntryEmail"
-        app:layout_constraintTop_toBottomOf="@+id/tvEntryContactPrim"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEntryContactSec"
         tools:text="miller.david@gmail.com" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

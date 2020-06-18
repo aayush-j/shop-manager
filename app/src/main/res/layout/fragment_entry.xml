@@ -1,151 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ui.EntryFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_margin" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/entryActionBar"
+            style="@style/AppTheme.ToolbarOverlay"
+            app:navigationIcon="@drawable/ic_back" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_margin" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mcvEntryPersonal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_m"
-            app:cardCornerRadius="@dimen/til_corner_radius"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintStart_toStartOf="@id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/mcvEntryEnquiry">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
-            <include layout="@layout/entry_personal_card" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        </com.google.android.material.card.MaterialCardView>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_margin" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mcvEntryEnquiry"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_m"
-            app:cardCornerRadius="@dimen/til_corner_radius"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintStart_toStartOf="@id/guideline3"
-            app:layout_constraintTop_toTopOf="parent">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_margin" />
 
-            <include layout="@layout/entry_enquiry_card" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcvEntryPersonal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_m"
+                app:cardCornerRadius="@dimen/til_corner_radius"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/mcvEntryEnquiry">
 
-        </com.google.android.material.card.MaterialCardView>
+                <include layout="@layout/entry_personal_card" />
 
-        <Button
-            android:id="@+id/btnCloseEnquiry"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_close"
-            android:drawableTint="@color/colorWhite"
-            android:text="Close Enquiry"
-            android:layout_marginTop="@dimen/spacing_s"
-            android:layout_marginBottom="@dimen/spacing_m"
-            app:layout_constraintCircleRadius="@dimen/til_corner_radius"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/btnEdit" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <Button
-            android:id="@+id/btnSendWhatsApp"
-            style="@style/AppTheme.EntryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_whatsapp"
-            android:text="WhatsApp"
-            android:layout_marginTop="@dimen/spacing_m"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btnCallPrim"
-            app:layout_constraintTop_toBottomOf="@+id/mcvEntryPersonal" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcvEntryEnquiry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_m"
+                app:cardCornerRadius="@dimen/til_corner_radius"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/btnCallPrim"
-            style="@style/AppTheme.EntryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_call"
-            android:text="Call"
-            app:layout_constraintEnd_toStartOf="@+id/btnSendWhatsApp"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btnEmail"
-            app:layout_constraintTop_toTopOf="@+id/btnSendWhatsApp" />
+                <include layout="@layout/entry_enquiry_card" />
 
-        <Button
-            android:id="@+id/btnEmail"
-            style="@style/AppTheme.EntryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_mail"
-            android:text="Mail"
-            app:layout_constraintEnd_toStartOf="@+id/btnCallPrim"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toTopOf="@+id/btnCallPrim" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <Button
-            android:id="@+id/btnShare"
-            style="@style/AppTheme.EntryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_share"
-            android:text="Share"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btnDelete"
-            app:layout_constraintTop_toTopOf="@+id/btnEdit" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcvEntryOptions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_m"
+                app:cardCornerRadius="@dimen/til_corner_radius"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/mcvEntryPersonal">
 
-        <Button
-            android:id="@+id/btnEdit"
-            style="@style/AppTheme.EntryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_edit"
-            android:text="Edit"
-            app:layout_constraintEnd_toStartOf="@+id/btnDelete"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnEmail" />
+                <include layout="@layout/entry_options_card" />
 
-        <Button
-            android:id="@+id/btnDelete"
-            style="@style/AppTheme.EntryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_delete"
-            android:text="Delete"
-            app:layout_constraintEnd_toStartOf="@+id/btnShare"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btnEdit"
-            app:layout_constraintTop_toTopOf="@+id/btnEdit" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCloseEnquiry"
+                style="@style/DefaultButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:layout_marginBottom="@dimen/spacing_m"
+                android:text="Close Enquiry"
+                app:icon="@drawable/ic_close"
+                app:iconGravity="textStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/mcvEntryOptions" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </ScrollView>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

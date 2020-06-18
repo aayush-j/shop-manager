@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    tools:context=".onboarding.CategoryFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategoryItems"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/spacing_m"
+        android:background="@drawable/category_rv_bg"
+        app:layout_constraintBottom_toTopOf="@+id/btnCompleteOnBoarding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCategoryName"
+        tools:itemCount="5"
+        tools:listitem="@layout/category_list_item" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etCategoryName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:layout_marginEnd="@dimen/spacing_m"
+        android:background="@drawable/category_rv_bg"
+        android:hint="Enter a category"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddCategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnAddCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/spacing_m"
+        android:background="@drawable/category_rv_bg"
+        android:backgroundTint="?attr/colorAccent"
+        android:tint="?attr/colorOnPrimary"
+        android:padding="12dp"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="@+id/etCategoryName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etCategoryName" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCompleteOnBoarding"
+        style="@style/DefaultButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:layout_marginBottom="@dimen/spacing_m"
+        android:backgroundTint="?attr/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rvCategoryItems"
+        app:layout_constraintStart_toStartOf="@+id/rvCategoryItems" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

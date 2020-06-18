@@ -13,17 +13,24 @@
         <action
             android:id="@+id/action_homeFragment_to_entryFragment"
             app:destination="@id/entryFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_homeFragment_to_modifyFragment"
             app:destination="@id/modifyFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"/>
+        <action
+            android:id="@+id/action_homeFragment_to_appPreferences"
+            app:destination="@id/appPreferences"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/entryFragment"
@@ -33,18 +40,44 @@
         <action
             android:id="@+id/action_entryFragment_to_modifyFragment"
             app:destination="@id/modifyFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/modifyFragment"
         android:name="com.rttc.shopmanager.ui.ModifyFragment"
         android:label="fragment_modify"
-        tools:layout="@layout/fragment_modify"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"/>
+        tools:layout="@layout/fragment_modify" >
+        <action
+            android:id="@+id/action_modifyFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"/>
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.rttc.shopmanager.onboarding.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/dataManagerFragment"
+        android:name="com.rttc.shopmanager.onboarding.DataManagerFragment"
+        android:label="fragment_data_manager"
+        tools:layout="@layout/fragment_data_manager" />
+    <fragment
+        android:id="@+id/appPreferences"
+        android:name="com.rttc.shopmanager.onboarding.AppPreferences"
+        android:label="AppPreferences" >
+        <action
+            android:id="@+id/action_appPreferences_to_categoryFragment"
+            app:destination="@id/categoryFragment"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"/>
+    </fragment>
 </navigation>

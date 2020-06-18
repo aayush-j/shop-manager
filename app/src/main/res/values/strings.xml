@@ -1,20 +1,12 @@
 <resources>
     <string name="app_name">ShopManager</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="helper_text_optional">Optional</string>
     <string name="prefix_text_code">+91-</string>
-    <string name="welcome_text">
-        No enquiries added\n
-        To create to enquiry, click the button below
-    </string>
+    <string name="pref_manage_category">key_manage_category</string>
+    <string name="pref_create_backup">key_create_backup</string>
+    <string name="pref_restore_backup">key_restore_backup</string>
+    <string name="pref_report_bug">key_report_bug</string>
+    <string name="pref_app_version">key_app_version</string>
+    <string name="pref_testing_enabled">key_testing_enabled</string>
 
-    <string-array name="enquiry_types">
-        <item>Modular Kitchen</item>
-        <item>Chimney</item>
-        <item>Gas Stove</item>
-        <item>Repairs and Services</item>
-        <item>Other</item>
-    </string-array>
 </resources>

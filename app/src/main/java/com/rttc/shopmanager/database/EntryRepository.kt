@@ -2,9 +2,8 @@ package com.rttc.shopmanager.database
 
 import android.util.Log
 import com.rttc.shopmanager.utilities.LOG_PREFIX
-import java.time.LocalDate
 
-class EntryRepository private constructor(private val entryDao: EntryDao){
+class EntryRepository private constructor(private val entryDao: EntryDao) {
     fun getAllEntries() = entryDao.getAllEntries()
 
     suspend fun insert(entry: Entry) {
@@ -16,7 +15,11 @@ class EntryRepository private constructor(private val entryDao: EntryDao){
 
     suspend fun delete(entry: Entry) = entryDao.delete(entry)
 
-    suspend fun insertAll(entries: List<Entry>) = entryDao.insertAll(entries)
+    suspend fun deleteAllByCategory(category: String) = entryDao.deleteAllByCategory(category)
+
+    suspend fun insertCategory(category: Category) = entryDao.insertCategory(category)
+
+    suspend fun deleteCategory(category: Category) = entryDao.deleteCategory(category)
 
     fun getEntryById(id: Long) = entryDao.getEntryById(id)
 
@@ -24,9 +27,12 @@ class EntryRepository private constructor(private val entryDao: EntryDao){
 
     fun getEntriesByStatus(status: String) = entryDao.getEntriesByStatus(status)
 
-    fun getEntriesByFilter(enquiryType: String, status: String) = entryDao.getEntriesByFilter(enquiryType, status)
+    fun getEntriesByFilter(enquiryType: String, status: String) =
+        entryDao.getEntriesByFilter(enquiryType, status)
 
-    fun getTableCount() = entryDao.getTableCount()
+    //fun getTableCount() = entryDao.getTableCount()
+
+    fun getAllCategories() = entryDao.getAllCategories()
 
     companion object {
         @Volatile private var INSTANCE: EntryRepository? = null

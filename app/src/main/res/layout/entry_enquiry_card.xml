@@ -3,31 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/guideline_margin">
-
-    <TextView
-        android:id="@+id/tvEntryName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="David Miller" />
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tvEntryStatus"
+        style="@style/AppTheme.HighlightTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_icon_margin_s"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:layout_marginStart="@dimen/spacing_m"
         android:background="@drawable/enquiry_open_tag"
-        style="@style/AppTheme.HighlightTag"
         android:textAllCaps="true"
         android:textColor="@color/colorOpenStroke"
-        app:layout_constraintStart_toStartOf="@+id/tvEntryName"
-        app:layout_constraintTop_toBottomOf="@+id/tvEntryName"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Open" />
 
     <TextView
@@ -39,73 +29,45 @@
         android:textAllCaps="true"
         android:background="@drawable/item_type_tag"
         android:textColor="@color/colorTypeStroke"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/tvEntryStatus"
         app:layout_constraintStart_toEndOf="@+id/tvEntryStatus"
         app:layout_constraintTop_toTopOf="@+id/tvEntryStatus"
         tools:text="Chimney" />
 
-    <ImageView
-        android:id="@+id/ivEntryDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/tvEntryDetail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvEntryDetail"
-        app:srcCompat="@drawable/ic_enquiry_detail" />
-
     <TextView
         android:id="@+id/tvEntryDetail"
+        style="@style/AppTheme.EntrySelectableItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_icon_margin_s"
-        android:layout_marginTop="@dimen/card_icon_margin_m"
         android:visibility="gone"
+        android:drawableStart="@drawable/ic_enquiry_detail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivEntryDetail"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvEntryStatus"
         tools:text="Chimney repair and first service needed. Auto cleaning not working properly" />
 
     <TextView
         android:id="@+id/tvEntryOpenDate"
+        style="@style/AppTheme.EntrySelectableItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_icon_margin_s"
-        android:layout_marginTop="@dimen/card_icon_margin_m"
+        android:drawableStart="@drawable/ic_calendar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivEntryOpenDate"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvEntryDetail"
         tools:text="Opened on Mar 10, 2020" />
 
     <TextView
         android:id="@+id/tvEntryClosedDate"
+        style="@style/AppTheme.EntrySelectableItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_icon_margin_s"
-        android:layout_marginTop="@dimen/card_icon_margin_m"
         android:visibility="gone"
+        android:drawableStart="@drawable/ic_calendar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivEntryClosedDate"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvEntryOpenDate"
         tools:text="Closed on Mar 22, 2020" />
-
-    <ImageView
-        android:id="@+id/ivEntryOpenDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/tvEntryOpenDate"
-        app:layout_constraintStart_toStartOf="@+id/tvEntryStatus"
-        app:layout_constraintTop_toTopOf="@+id/tvEntryOpenDate"
-        app:srcCompat="@drawable/ic_calendar" />
-
-    <ImageView
-        android:id="@+id/ivEntryClosedDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/tvEntryClosedDate"
-        app:layout_constraintStart_toStartOf="@+id/ivEntryOpenDate"
-        app:layout_constraintTop_toTopOf="@+id/tvEntryClosedDate"
-        app:srcCompat="@drawable/ic_calendar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

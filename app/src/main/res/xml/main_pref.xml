@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="General">
+        <Preference
+            android:key="@string/pref_manage_category"
+            android:title="Manage category"
+            android:icon="@drawable/ic_category"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Database">
+        <Preference
+            android:key="@string/pref_create_backup"
+            android:title="Create backup (beta)"
+            android:icon="@drawable/ic_backup"/>
+        <Preference
+            android:key="@string/pref_restore_backup"
+            android:title="Restore backup"
+            android:icon="@drawable/ic_restore"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Testing">
+        <SwitchPreference
+            android:key="@string/pref_testing_enabled"
+            android:title="Enable random data generation"
+            android:icon="@drawable/ic_shuffle"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="More">
+        <Preference
+            android:key="@string/pref_report_bug"
+            android:title="Report bug"
+            android:icon="@drawable/ic_report_bug"/>
+        <Preference
+            android:key="@string/pref_app_version"
+            android:title="App version"
+            android:icon="@drawable/ic_options"
+            android:summary="@string/app_name"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
