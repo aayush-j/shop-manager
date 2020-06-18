@@ -2,7 +2,6 @@ package com.rttc.shopmanager.database
 
 import android.util.Log
 import com.rttc.shopmanager.utilities.LOG_PREFIX
-import java.time.LocalDate
 
 class EntryRepository private constructor(private val entryDao: EntryDao) {
     fun getAllEntries() = entryDao.getAllEntries()
@@ -18,8 +17,6 @@ class EntryRepository private constructor(private val entryDao: EntryDao) {
 
     suspend fun deleteAllByCategory(category: String) = entryDao.deleteAllByCategory(category)
 
-    suspend fun insertAll(entries: List<Entry>) = entryDao.insertAll(entries)
-
     suspend fun insertCategory(category: Category) = entryDao.insertCategory(category)
 
     suspend fun deleteCategory(category: Category) = entryDao.deleteCategory(category)
@@ -33,7 +30,7 @@ class EntryRepository private constructor(private val entryDao: EntryDao) {
     fun getEntriesByFilter(enquiryType: String, status: String) =
         entryDao.getEntriesByFilter(enquiryType, status)
 
-    fun getTableCount() = entryDao.getTableCount()
+    //fun getTableCount() = entryDao.getTableCount()
 
     fun getAllCategories() = entryDao.getAllCategories()
 

@@ -1,27 +1,24 @@
 package com.rttc.shopmanager.onboarding
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.rttc.shopmanager.MainActivity
 import com.rttc.shopmanager.R
-import com.rttc.shopmanager.SplashActivity
 import com.rttc.shopmanager.utilities.DatabaseHelper
 import com.rttc.shopmanager.utilities.PREFS_NAME
 import com.rttc.shopmanager.utilities.PREF_ONBOARDING
 import kotlinx.android.synthetic.main.fragment_welcome.*
-import java.io.IOException
 
 class WelcomeFragment : Fragment() {
     companion object {
@@ -40,6 +37,7 @@ class WelcomeFragment : Fragment() {
 
         val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_right)
         btnWelcomeCategory?.startAnimation(animation)
+        btnWelcomeLoadBackup?.startAnimation(animation)
 
         btnWelcomeCategory?.setOnClickListener {
             NavHostFragment.findNavController(this)

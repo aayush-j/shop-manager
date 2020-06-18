@@ -1,73 +1,107 @@
 package com.rttc.shopmanager.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rttc.shopmanager.R
-import com.rttc.shopmanager.database.Entry
 import com.rttc.shopmanager.database.EntryLite
 import com.rttc.shopmanager.ui.ModifyFragment
-import com.rttc.shopmanager.utilities.ENTRY_DATE_FORMAT
 import com.rttc.shopmanager.utilities.ITEM_DATE_FORMAT
-import com.rttc.shopmanager.utilities.LOG_PREFIX
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EntryListAdapter(private val appContext: Context, private val entryListener: EntryListListener)
-    :RecyclerView.Adapter<EntryListAdapter.EntryViewHolder>() {
+class EntryListAdapter(
+    private val appContext: Context,
+    private val entryListener: EntryListListener
+) : ListAdapter<EntryLite, RecyclerView.ViewHolder>(EntryAdapterDiffCallback()) {
 
-    private var entries = emptyList<Entry>()
+    companion object {
+        const val TYPE_ENTRY = 1
+        const val TYPE_FOOTER = 2
+    }
+
     private val inflater: LayoutInflater = LayoutInflater.from(appContext)
 
-    fun setItems(entryList: List<Entry>) {
-        this.entries = entryList
-        notifyDataSetChanged()
+    fun setItems(entryList: List<EntryLite>) {
+        CoroutineScope(Dispatchers.Default).launch {
+            val items =
+                if (entryList.isNotEmpty())
+                    entryList + listOf(EntryLite(-1, "", "", "", null, TYPE_FOOTER))
+                else
+                    entryList
+            withContext(Dispatchers.Main) {
+                submitList(items)
+            }
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
-        val rootView = inflater.inflate(R.layout.entry_item, parent, false)
-        return EntryViewHolder(rootView)
+    override fun getItemViewType(position: Int): Int {
+        return getItem(position).item_type
     }
 
-    override fun getItemCount(): Int {
-        return entries.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == TYPE_ENTRY) {
+            val view = inflater.inflate(R.layout.entry_item, parent, false)
+            EntryViewHolder(view)
+        } else {
+            val view = inflater.inflate(R.layout.home_rv_footer, parent, false)
+            FooterViewHolder(view)
+        }
     }
 
-    override fun onBindViewHolder(holder: EntryViewHolder, position: Int) {
-        holder.bindView(entries[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (getItemViewType(position) == TYPE_ENTRY)
+            (holder as EntryViewHolder).bindView(getItem(position))
     }
 
-    inner class EntryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class EntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvName = itemView.findViewById<TextView>(R.id.tvItemName)
         private val tvDateAdded = itemView.findViewById<TextView>(R.id.tvItemDateAdded)
         private val tvType = itemView.findViewById<TextView>(R.id.tvItemType)
-        private val viewType = itemView.findViewById<View>(R.id.viewItemType)
 
-        fun bindView(entry: Entry) {
+        fun bindView(entry: EntryLite) {
             tvName.text = entry.name
-            tvType.text = entry.enquiryType
-            tvDateAdded.text = "+91 ${entry.primaryContact}"
-            /*Log.d(LOG_PREFIX, "Recyclerview item date = ${entry.dateOpened}")
-            entry.dateOpened?.let {
-                val simpleDateFormat = SimpleDateFormat(ENTRY_DATE_FORMAT, Locale.US)
-                simpleDateFormat.timeZone = TimeZone.getTimeZone("IST")
-                tvDateAdded.text = simpleDateFormat.format(it.time)
-            }*/
+            tvType.text = entry.enquiry_type
 
-            viewType.setBackgroundColor(
-                if (entry.status == ModifyFragment.STATUS_OPEN)
-                    appContext.getColor(R.color.colorOpenStroke)
-                else
-                    appContext.getColor(R.color.colorClosedStroke)
-            )
+            entry.date_opened?.let {
+                val simpleDateFormat = SimpleDateFormat(ITEM_DATE_FORMAT, Locale.US)
+                tvDateAdded.text = simpleDateFormat.format(it.time)
+            }
+
+            if (entry.status == ModifyFragment.STATUS_CLOSED) {
+                tvName.setTextColor(appContext.getColor(R.color.colorClosedStroke))
+                tvType.background = appContext.getDrawable(R.drawable.enquiry_closed_tag)
+                tvType.setTextColor(appContext.getColor(R.color.colorClosedStroke))
+            } else {
+                tvName.setTextColor(appContext.getColor(R.color.colorOnSurface))
+                tvType.background = appContext.getDrawable(R.drawable.item_type_tag)
+                tvType.setTextColor(appContext.getColor(R.color.colorTypeStroke))
+            }
 
             itemView.setOnClickListener {
                 entryListener.onItemClick(entry.id)
             }
+        }
+    }
+
+    inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    class EntryAdapterDiffCallback : DiffUtil.ItemCallback<EntryLite>() {
+        override fun areItemsTheSame(oldItem: EntryLite, newItem: EntryLite): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: EntryLite, newItem: EntryLite): Boolean {
+            return oldItem == newItem
         }
     }
 }

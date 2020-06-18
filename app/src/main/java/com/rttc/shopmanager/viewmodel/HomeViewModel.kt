@@ -1,31 +1,22 @@
 package com.rttc.shopmanager.viewmodel
 
-import androidx.arch.core.util.Function
-import androidx.lifecycle.*
-import com.rttc.shopmanager.database.Entry
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import com.rttc.shopmanager.database.EntryLite
 import com.rttc.shopmanager.database.EntryRepository
 import com.rttc.shopmanager.ui.FilterLiveData
 import com.rttc.shopmanager.utilities.TYPE_ALL
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class HomeViewModel(private val entryRepository: EntryRepository)
-    :ViewModel(){
-
+class HomeViewModel(private val entryRepository: EntryRepository) : ViewModel() {
     val enquiryType: MutableLiveData<String> = MutableLiveData(TYPE_ALL)
     val statusType: MutableLiveData<String> = MutableLiveData(TYPE_ALL)
-    private val filter =
-        FilterLiveData(enquiryType, statusType)
-    val entryList: LiveData<List<Entry>>
-
-    fun insertAllEnquiries(entries: List<Entry>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            entryRepository.insertAll(entries)
-        }
-    }
+    private val filter = FilterLiveData(enquiryType, statusType)
+    val entryList: LiveData<List<EntryLite>>
 
     init {
-        entryList = Transformations.switchMap(filter, Function {
+        entryList = Transformations.switchMap(filter) {
             if (it.first == TYPE_ALL && it.second == TYPE_ALL)
                 entryRepository.getAllEntries()
             else if (it.first == TYPE_ALL)
@@ -34,6 +25,6 @@ class HomeViewModel(private val entryRepository: EntryRepository)
                 entryRepository.getEntriesByEnquiryType(it.first)
             else
                 entryRepository.getEntriesByFilter(it.first, it.second)
-        })
+        }
     }
 }

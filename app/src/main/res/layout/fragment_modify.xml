@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorBackground"
     tools:context=".ui.ModifyFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -31,56 +31,251 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvModifyPersonalCardTitle"
+                style="@style/AppTheme.ModifyCardTitle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/guideline_margin"
-                app:cardCornerRadius="@dimen/til_corner_radius"
-                app:cardElevation="0dp">
+                android:background="@color/colorPrimary"
+                android:text="Personal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <include layout="@layout/modify_personal_card" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilName"
+                style="@style/DefaultTextInputLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/guideline_margin"
-                android:layout_marginEnd="@dimen/guideline_margin"
-                android:layout_marginBottom="@dimen/guideline_margin"
-                app:cardCornerRadius="@dimen/til_corner_radius"
-                app:cardElevation="0dp">
+                android:hint="Name"
+                android:layout_marginStart="@dimen/spacing_m"
+                android:layout_marginEnd="@dimen/spacing_m"
+                android:layout_marginTop="@dimen/spacing_s"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvModifyPersonalCardTitle">
 
-                <include layout="@layout/modify_enquiry_card" />
-            </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textPersonName" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAddress"
+                style="@style/DefaultTextInputLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/guideline_margin"
-                android:layout_marginEnd="@dimen/guideline_margin"
-                android:layout_marginBottom="@dimen/guideline_margin"
-                app:cardCornerRadius="@dimen/til_corner_radius"
-                app:cardElevation="0dp">
+                android:layout_marginTop="@dimen/spacing_s"
+                android:hint="Address"
+                android:layout_marginBottom="@dimen/spacing_m"
+                app:layout_constraintEnd_toEndOf="@+id/tilName"
+                app:layout_constraintStart_toStartOf="@+id/tilName"
+                app:layout_constraintTop_toBottomOf="@id/tilName">
 
-                <include layout="@layout/modify_contact_card" />
-            </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textPostalAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvModifyEnquiryCardTitle"
+                style="@style/AppTheme.ModifyCardTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/guideline_margin"
+                android:background="@color/colorAccent"
+                android:text="Enquiry"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tilAddress" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEnquiryType"
+                style="@style/DefaultSpinnerLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_m"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:layout_marginEnd="@dimen/spacing_s"
+                android:hint="Category"
+                app:layout_constraintEnd_toStartOf="@+id/btnAddCategoryExt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvModifyEnquiryCardTitle">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerEnquiryType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:editable="false"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/btnAddCategoryExt"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/spacing_m"
+                android:background="@drawable/category_rv_bg"
+                android:backgroundTint="?attr/colorAccent"
+                android:padding="12dp"
+                android:src="@drawable/ic_add"
+                android:tint="?attr/colorOnPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/tilEnquiryType"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEnquiryDetail"
+                style="@style/DefaultTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:layout_marginBottom="@dimen/spacing_m"
+                android:hint="Description"
+                app:helperText="@string/helper_text_optional"
+                app:layout_constraintEnd_toEndOf="@+id/btnAddCategoryExt"
+                app:layout_constraintStart_toStartOf="@+id/tilEnquiryType"
+                app:layout_constraintTop_toBottomOf="@+id/tilEnquiryType">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEnquiryDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:capitalize="sentences"
+                    android:inputType="textLongMessage|textMultiLine" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvModifyContactCardTitle"
+                style="@style/AppTheme.ModifyCardTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/guideline_margin"
+                android:background="@color/colorPrimary"
+                android:text="Contact"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilEnquiryDetail" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPrimContact"
+                style="@style/DefaultTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Primary Contact"
+                android:layout_marginStart="@dimen/spacing_m"
+                android:layout_marginEnd="@dimen/spacing_m"
+                android:layout_marginTop="@dimen/spacing_s"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvModifyContactCardTitle"
+                app:prefixText="@string/prefix_text_code">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPrimContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilSecContact"
+                style="@style/DefaultTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:hint="Secondary Contact"
+                app:helperText="@string/helper_text_optional"
+                app:layout_constraintEnd_toEndOf="@+id/tilPrimContact"
+                app:layout_constraintStart_toStartOf="@+id/tilPrimContact"
+                app:layout_constraintTop_toBottomOf="@+id/tilPrimContact"
+                app:prefixText="@string/prefix_text_code">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSecContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:text="WhatsApp Contact"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintEnd_toEndOf="@+id/tilSecContact"
+                app:layout_constraintStart_toStartOf="@+id/tilSecContact"
+                app:layout_constraintTop_toBottomOf="@+id/tilSecContact" />
+
+            <RadioGroup
+                android:id="@+id/rgWhatsApp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rbWhatsAppPrim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Same as primary" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rbWhatsAppSec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Same as secondary" />
+
+            </RadioGroup>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEmail"
+                style="@style/DefaultTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:hint="Email"
+                app:helperText="@string/helper_text_optional"
+                app:layout_constraintEnd_toEndOf="@+id/rgWhatsApp"
+                app:layout_constraintStart_toStartOf="@+id/rgWhatsApp"
+                app:layout_constraintTop_toBottomOf="@+id/rgWhatsApp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSaveDetails"
                 style="@style/DefaultButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/guideline_margin"
-                android:layout_marginEnd="@dimen/guideline_margin"
-                android:layout_marginBottom="@dimen/guideline_margin"
-                android:text="Save" />
+                android:layout_margin="@dimen/spacing_m"
+                android:text="Save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 

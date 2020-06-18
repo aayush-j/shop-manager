@@ -1,15 +1,14 @@
 package com.rttc.shopmanager.onboarding
 
 import android.Manifest
-import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -18,11 +17,15 @@ import com.rttc.shopmanager.R
 import com.rttc.shopmanager.SplashActivity
 import com.rttc.shopmanager.utilities.DatabaseHelper
 import com.rttc.shopmanager.utilities.ENTRY_DATE_FORMAT
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AppPreferences: PreferenceFragmentCompat() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.setBackgroundColor(requireContext().getColor(R.color.colorWhite))
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.main_pref, rootKey)
@@ -44,7 +47,7 @@ class AppPreferences: PreferenceFragmentCompat() {
                     .setTitle("Warning")
                     .setMessage("All previous backups will be replaced by current backup")
                     .setPositiveButton("Proceed") { _, _ ->
-                        initBackup()
+                        initBackup(it)
                     }
                     .setNegativeButton("Cancel") { _, _ ->
 
@@ -106,17 +109,18 @@ class AppPreferences: PreferenceFragmentCompat() {
         }
     }
 
-    private fun initBackup() {
+    private fun initBackup(preference: Preference) {
         if (DatabaseHelper.createLocalBackup(requireContext()) == DatabaseHelper.SUCCESS) {
             showToast("Backup created")
             val calendar = Calendar.getInstance()
             calendar.timeZone = TimeZone.getTimeZone("IST")
             val sdf = SimpleDateFormat(ENTRY_DATE_FORMAT, Locale.US)
             val summary = "Last backup created on ${sdf.format(calendar.time)}"
-            preferenceScreen.sharedPreferences
+            preference.sharedPreferences
                 .edit()
                 .putString(getString(R.string.pref_create_backup), summary)
                 .apply()
+            preference.summary = summary
         }
         else
             showToast("Backup failed")

@@ -1,14 +1,14 @@
 package com.rttc.shopmanager.ui
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.rttc.shopmanager.R
 import com.rttc.shopmanager.adapter.EntryListAdapter
 import com.rttc.shopmanager.adapter.EntryListListener
@@ -59,48 +59,32 @@ class HomeFragment : Fragment(), EntryListListener, SearchFilterListener {
         rvHomeItems.apply {
             adapter = entryListAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            //val animID = R.anim.layout_anim_from_bottom
-            //layoutAnimation = AnimationUtils.loadLayoutAnimation(requireContext(), animID)
         }
 
         homeViewModel.entryList.observe(viewLifecycleOwner, Observer { list ->
             list?.let {
                 entryListAdapter.setItems(it)
-                val textToDisplay = "Showing ${list.size} enquiries"
-                homeActionBar?.title = textToDisplay
+                homeActionBar?.title =
+                    if (it.isNotEmpty()) "Showing ${list.size} items"
+                    else "No items added"
+
                 tvWelcomeText.visibility =
                     if (it.isEmpty()) View.VISIBLE
                     else View.GONE
-                }
+            }
         })
 
         fabNewEntry?.setOnClickListener {
-            NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_modifyFragment)
+            NavHostFragment.findNavController(this)
+                .navigate(R.id.action_homeFragment_to_modifyFragment)
         }
-
-        /*fabAddTestEntries?.setOnClickListener {
-            val newEntries = mutableListOf<Entry>()
-            for (i in 1..20) {
-                newEntries.add(SelfTesting.getRandomEntry())
-            }
-            homeViewModel.insertAllEnquiries(newEntries.toList())
-            Toast.makeText(requireContext(), "Added 20 more test entries", Toast.LENGTH_SHORT).show()
-        }*/
     }
 
     override fun onItemClick(entryId: Long) {
         val bundle = Bundle()
         bundle.putLong(ARG_ENTRY_ID, entryId)
-        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_entryFragment, bundle)
-    }
-
-    private fun runAnimation() {
-        rvHomeItems.apply {
-            val animID = R.anim.layout_anim_from_bottom
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(requireContext(), animID)
-            adapter?.notifyDataSetChanged()
-            scheduleLayoutAnimation()
-        }
+        NavHostFragment.findNavController(this)
+            .navigate(R.id.action_homeFragment_to_entryFragment, bundle)
     }
 
     override fun applyFilter(enquiryType: String, status: String) {

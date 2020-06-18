@@ -73,7 +73,7 @@ class SelfTesting {
                 if (Random.nextInt(0,5) == 3)
                     email = getRandomEmail()
                 address = getRandomAddress()
-                enquiryType = getRandomType()
+                //enquiryType = getRandomType()
                 if (Random.nextInt(0,5) == 1) {
                     status = ModifyFragment.STATUS_CLOSED
                     dateClosed = dateOpened

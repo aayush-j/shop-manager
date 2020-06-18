@@ -3,11 +3,8 @@
     <dimen name="guideline_margin">16dp</dimen>
     <dimen name="spacing_m">16dp</dimen>
     <dimen name="spacing_s">8dp</dimen>
-    <dimen name="corner_radius_m">16dp</dimen>
     <dimen name="margin_entry_item">16dp</dimen>
-    <dimen name="margin_entry_card">8dp</dimen>
     <dimen name="card_icon_margin_s">8dp</dimen>
-    <dimen name="card_icon_margin_m">16dp</dimen>
     <dimen name="til_corner_radius">12dp</dimen>
     <dimen name="padding_button">16dp</dimen>
 </resources>

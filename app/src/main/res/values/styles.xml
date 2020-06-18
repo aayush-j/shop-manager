@@ -12,18 +12,16 @@
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorOnBackground">@color/colorOnSurface</item>
         <item name="android:colorBackground">@color/colorBackground</item>
-        <item name="windowActionBar">false</item>
         <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
-        <item name="android:contextPopupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
         <item name="textAppearanceButton">@style/TextAppearance.App.Button</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="materialAlertDialogTheme">@style/DefaultAlertDialog</item>
     </style>
 
-    <style name="AppTheme.ToolbarOverlay" parent="Widget.MaterialComponents.Toolbar.Surface">
+    <style name="AppTheme.ToolbarOverlay" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
-
     </style>
 
     <style name="DefaultTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -48,23 +46,11 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
-    <style name="AppTheme.HighlightTag">
+    <style name="AppTheme.HighlightTag" parent="TextAppearance.AppCompat.Body1">
         <item name="android:paddingStart">12dp</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingBottom">8dp</item>
-    </style>
-
-    <style name="AppTheme.TypeSelectorItem">
-        <item name="android:background">@drawable/radio_selector</item>
-        <item name="android:button">@android:color/transparent</item>
-        <item name="android:textColor">@color/colorTypeStroke</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-        <item name="android:layout_marginStart">@dimen/spacing_s</item>
-        <item name="android:layout_marginEnd">@dimen/spacing_s</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTheme.EntrySelectableItem">
@@ -79,23 +65,13 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="AppTheme.IconButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="iconPadding">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:minHeight">48dp</item>
-    </style>
-
     <style name="AppTheme.ModifyCardTitle">
         <item name="android:textStyle">bold</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
@@ -115,6 +91,22 @@
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/til_corner_radius</item>
+    </style>
+
+    <style name="DefaultAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertTitleText</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertBody</item>
+    </style>
+
+    <style name="AlertTitleText" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/colorError</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AlertBody" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

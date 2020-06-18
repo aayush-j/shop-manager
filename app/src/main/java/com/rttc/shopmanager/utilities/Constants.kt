@@ -9,5 +9,8 @@ const val PREF_ONBOARDING = "com.rttc.shopmanager.prefs.ONBOARDING"
 const val TYPE_ALL = "All"
 const val LOG_PREFIX = "Shop//"
 
-const val ITEM_DATE_FORMAT = "hh:mm a, dd MMM"
+const val ITEM_DATE_FORMAT = "dd MMM, hh:mm a"
 const val ENTRY_DATE_FORMAT = "dd MMM yyyy, hh:mm a"
+
+const val ITEM_TYPE_ENTRY = "entry"
+const val ITEM_TYPE_CUSTOM = "custom"

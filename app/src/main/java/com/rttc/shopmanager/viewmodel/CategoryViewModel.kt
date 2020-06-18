@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rttc.shopmanager.database.Category
-import com.rttc.shopmanager.database.Entry
 import com.rttc.shopmanager.database.EntryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -2,21 +2,11 @@
     <string name="app_name">ShopManager</string>
     <string name="helper_text_optional">Optional</string>
     <string name="prefix_text_code">+91-</string>
-    <string name="welcome_text">
-        No enquiries added\n
-        To create to enquiry, click the button below
-    </string>
-    <string name="onboarding_welcome_text">
-        > Manage your shop enquiries\n
-        > Create custom categories\n
-        > Local data backup\n
-        > Share relevant data with anyone
-    </string>
-    <string name="note_key_backup">Local backup is stored at ShopManagerBackup folder inside your internal storage. Please preserve this folder while restoring.</string>
     <string name="pref_manage_category">key_manage_category</string>
     <string name="pref_create_backup">key_create_backup</string>
     <string name="pref_restore_backup">key_restore_backup</string>
     <string name="pref_report_bug">key_report_bug</string>
     <string name="pref_app_version">key_app_version</string>
+    <string name="pref_testing_enabled">key_testing_enabled</string>
 
 </resources>

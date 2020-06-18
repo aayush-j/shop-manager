@@ -1,71 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mcvItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="0dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp">
+    android:background="?attr/colorSurface"
+    android:layout_marginBottom="@dimen/spacing_s"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tvItemName"
+        style="?attr/textAppearanceSubtitle1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_entry_item"
+        android:layout_marginStart="@dimen/spacing_m"
+        android:layout_marginEnd="@dimen/spacing_s"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/tvItemType"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Aayush Jain" />
 
-        <View
-            android:id="@+id/viewItemType"
-            android:layout_width="5dp"
-            android:layout_height="0dp"
-            android:background="@color/colorOpenStroke"
-            app:layout_constraintBottom_toBottomOf="@+id/tvItemDateAdded"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvItemName" />
+    <TextView
+        android:id="@+id/tvItemDateAdded"
+        style="?attr/textAppearanceCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_entry_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvItemName"
+        app:layout_constraintTop_toBottomOf="@+id/tvItemName"
+        tools:text="July 23" />
 
-        <TextView
-            android:id="@+id/tvItemName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_entry_item"
-            android:layout_marginEnd="@dimen/spacing_s"
-            android:layout_marginTop="@dimen/margin_entry_item"
-            android:textColor="?attr/colorOnSurface"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/tvItemType"
-            app:layout_constraintStart_toEndOf="@+id/viewItemType"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Aayush Jain" />
+    <TextView
+        android:id="@+id/tvItemType"
+        style="@style/AppTheme.HighlightTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_m"
+        android:background="@drawable/item_type_tag"
+        android:textColor="@color/colorTypeStroke"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Modular Kitchen" />
 
-        <TextView
-            android:id="@+id/tvItemDateAdded"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_entry_item"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvItemName"
-            app:layout_constraintTop_toBottomOf="@+id/tvItemName"
-            tools:text="July 23" />
 
-        <TextView
-            android:id="@+id/tvItemType"
-            style="@style/AppTheme.HighlightTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_entry_item"
-            android:background="@drawable/item_type_tag"
-            android:textColor="@color/colorTypeStroke"
-            android:textSize="12sp"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Modular Kitchen" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

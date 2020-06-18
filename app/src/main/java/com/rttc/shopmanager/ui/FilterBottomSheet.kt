@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.rttc.shopmanager.R
-import com.rttc.shopmanager.database.Category
 import com.rttc.shopmanager.database.ShopDatabase
 import com.rttc.shopmanager.utilities.TYPE_ALL
 import kotlinx.android.synthetic.main.bottom_sheet_filter.*

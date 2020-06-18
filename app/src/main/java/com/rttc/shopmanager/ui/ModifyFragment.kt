@@ -16,18 +16,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.preference.PreferenceManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.rttc.shopmanager.R
-import com.rttc.shopmanager.database.Category
 import com.rttc.shopmanager.database.Entry
 import com.rttc.shopmanager.database.ShopDatabase
 import com.rttc.shopmanager.utilities.Instances
+import com.rttc.shopmanager.utilities.SelfTesting
 import com.rttc.shopmanager.viewmodel.ModifyViewModel
 import kotlinx.android.synthetic.main.fragment_modify.*
-import kotlinx.android.synthetic.main.modify_contact_card.*
-import kotlinx.android.synthetic.main.modify_enquiry_card.*
-import kotlinx.android.synthetic.main.modify_personal_card.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
@@ -66,6 +64,20 @@ class ModifyFragment : Fragment() {
 
         modifyActionBar?.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
+        }
+
+        if (PreferenceManager
+                .getDefaultSharedPreferences(requireContext())
+                .getBoolean(getString(R.string.pref_testing_enabled), false))
+            modifyActionBar?.inflateMenu(R.menu.testing_menu)
+        else
+            modifyActionBar?.menu
+
+        modifyActionBar?.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.actionRandomData -> setupData(SelfTesting.getRandomEntry())
+            }
+            true
         }
 
         var newEntry = Entry()

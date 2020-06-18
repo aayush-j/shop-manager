@@ -5,19 +5,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-
 import com.rttc.shopmanager.R
 import com.rttc.shopmanager.database.Entry
 import com.rttc.shopmanager.utilities.ENTRY_DATE_FORMAT
@@ -28,7 +26,6 @@ import kotlinx.android.synthetic.main.entry_enquiry_card.*
 import kotlinx.android.synthetic.main.entry_options_card.*
 import kotlinx.android.synthetic.main.entry_personal_card.*
 import kotlinx.android.synthetic.main.fragment_entry.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -58,6 +55,18 @@ class EntryFragment : Fragment(), View.OnClickListener {
         entryViewModel.entry.observe(viewLifecycleOwner, Observer { entry ->
             if (entry != null) {
                 recEntry = entry
+                entry.let {
+                    val calendar = Calendar.getInstance()
+                    if (it.dateOpened == null) {
+                        it.dateOpened = calendar.time
+                        entryViewModel.updateEntry(it)
+                    }
+
+                    if (it.status == ModifyFragment.STATUS_CLOSED && it.dateClosed == null) {
+                        it.status = ModifyFragment.STATUS_OPEN
+                        entryViewModel.updateEntry(it)
+                    }
+                }
                 populateUi(entry)
             }
         })
@@ -84,6 +93,7 @@ class EntryFragment : Fragment(), View.OnClickListener {
             tvEntryType.text = it.enquiryType
             val sdf = SimpleDateFormat(ENTRY_DATE_FORMAT, Locale.US)
             val dateOpened = "Opened on ${sdf.format(it.dateOpened!!)}"
+
             tvEntryOpenDate.text = dateOpened
             tvEntryStatus.text = it.status
 

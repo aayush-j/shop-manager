@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/tvCategoryName"
+        style="?attr/textAppearanceBody1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_s"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?attr/colorOnSurface"
-        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnDeleteCategory"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/spacing_s"
-        android:src="@drawable/ic_remove"
+        android:src="@drawable/ic_delete"
         android:tint="?attr/colorError"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -2,8 +2,8 @@ package com.rttc.shopmanager
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.rttc.shopmanager.utilities.PREFS_NAME
 import com.rttc.shopmanager.utilities.PREF_ONBOARDING
 

@@ -1,8 +1,6 @@
 package com.rttc.shopmanager.database
 
 import androidx.room.TypeConverter
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DateConverter {

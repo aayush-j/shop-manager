@@ -13,17 +13,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:liftOnScroll="true">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/homeActionBar"
             style="@style/AppTheme.ToolbarOverlay"
-            app:menu="@menu/home_app_bar_menu"
-            app:title="@string/app_name" />
+            app:menu="@menu/home_app_bar_menu" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHomeItems"
@@ -46,34 +43,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!--<TextView
-        android:id="@+id/tvTotalEnquiries"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/actionBarHome"
-        app:layout_constraintEnd_toStartOf="@+id/btnHomeFilter"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Showing 25 enquiries" />-->
-
-    <TextView
+    <include
         android:id="@+id/tvWelcomeText"
-        style="@style/AppTheme.HighlightTag"
+        layout="@layout/empty_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/guideline_margin"
-        android:layout_marginEnd="@dimen/guideline_margin"
-        android:background="@drawable/item_type_tag"
-        android:text="@string/welcome_text"
-        android:textAlignment="center"
-        android:textColor="@color/colorTypeStroke"
-        android:textStyle="normal"
+        android:layout_margin="@dimen/spacing_s"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClearFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/fabNewEntry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fabNewEntry" />
 </androidx.constraintlayout.widget.ConstraintLayout>
