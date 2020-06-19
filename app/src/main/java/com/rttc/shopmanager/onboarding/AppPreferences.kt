@@ -45,7 +45,7 @@ class AppPreferences: PreferenceFragmentCompat() {
             if (permission == PackageManager.PERMISSION_GRANTED) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Warning")
-                    .setMessage("All previous backups will be replaced by current backup")
+                    .setMessage("Your previous backup will be replaced by current one")
                     .setPositiveButton("Proceed") { _, _ ->
                         initBackup(it)
                     }
@@ -115,7 +115,7 @@ class AppPreferences: PreferenceFragmentCompat() {
             val calendar = Calendar.getInstance()
             calendar.timeZone = TimeZone.getTimeZone("IST")
             val sdf = SimpleDateFormat(ENTRY_DATE_FORMAT, Locale.US)
-            val summary = "Last backup created on ${sdf.format(calendar.time)}"
+            val summary = "Last created: ${sdf.format(calendar.time)}"
             preference.sharedPreferences
                 .edit()
                 .putString(getString(R.string.pref_create_backup), summary)
@@ -134,7 +134,7 @@ class AppPreferences: PreferenceFragmentCompat() {
             msg = msg + "OS Version: ${Build.VERSION.RELEASE}\n" +
                     "Device: ${Build.BRAND} ${Build.MODEL}\n" +
                     "Manufacturer: ${Build.MANUFACTURER}\n\n" +
-                    "Bug found:\n"
+                    "Your thoughts:\n"
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -142,7 +142,7 @@ class AppPreferences: PreferenceFragmentCompat() {
         sendIntent.apply {
             type = "message/rfc822"
             putExtra(Intent.EXTRA_EMAIL, arrayOf("aayushjain.y16@gmail.com"))
-            putExtra(Intent.EXTRA_SUBJECT, "[ShopManager] Bug Report")
+            putExtra(Intent.EXTRA_SUBJECT, "[ShopManager] Bug found")
             putExtra(Intent.EXTRA_TEXT, msg)
         }
         startActivity(Intent.createChooser(sendIntent, "Please choose an email client"))
