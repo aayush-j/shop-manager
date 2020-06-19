@@ -31,6 +31,13 @@
             app:popExitAnim="@anim/fragment_close_exit"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_close_exit"/>
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/entryFragment"
@@ -64,17 +71,25 @@
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
     <fragment
-        android:id="@+id/dataManagerFragment"
-        android:name="com.rttc.shopmanager.onboarding.DataManagerFragment"
-        android:label="fragment_data_manager"
-        tools:layout="@layout/fragment_data_manager" />
-    <fragment
         android:id="@+id/appPreferences"
         android:name="com.rttc.shopmanager.onboarding.AppPreferences"
         android:label="AppPreferences" >
         <action
             android:id="@+id/action_appPreferences_to_categoryFragment"
             app:destination="@id/categoryFragment"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"/>
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.rttc.shopmanager.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_entryFragment"
+            app:destination="@id/entryFragment"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_close_exit"
             app:enterAnim="@anim/fragment_open_enter"

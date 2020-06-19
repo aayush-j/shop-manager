@@ -15,6 +15,8 @@ class HomeViewModel(private val entryRepository: EntryRepository) : ViewModel() 
     private val filter = FilterLiveData(enquiryType, statusType)
     val entryList: LiveData<List<EntryLite>>
 
+    fun searchDb(query: String) = entryRepository.searchByName(query)
+
     init {
         entryList = Transformations.switchMap(filter) {
             if (it.first == TYPE_ALL && it.second == TYPE_ALL)

@@ -1,5 +1,5 @@
 package com.rttc.shopmanager.ui
 
-interface SearchFilterListener {
+interface FilterListener {
     fun applyFilter(enquiryType: String, status: String)
 }
