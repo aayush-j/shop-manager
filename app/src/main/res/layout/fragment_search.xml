@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    tools:context=".ui.SearchFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivCloseSearchFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:padding="12dp"
+        android:src="@drawable/ic_close"
+        android:tint="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/etSearchQuery"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etSearchQuery" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSearchItems"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorBackground"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchQuery"
+        tools:itemCount="10"
+        tools:listitem="@layout/entry_item" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etSearchQuery"
+        android:layout_width="0dp"
+        android:background="?attr/colorPrimary"
+        android:layout_height="?attr/actionBarSize"
+        android:hint="Enter customer's name"
+        android:textColor="?attr/colorOnPrimary"
+        android:textColorHint="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivCloseSearchFragment"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

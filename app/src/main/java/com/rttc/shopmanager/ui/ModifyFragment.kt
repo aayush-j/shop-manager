@@ -180,7 +180,7 @@ class ModifyFragment : Fragment() {
         }
     }
 
-    private suspend fun getCategoriesFromDb(): List<String> {
+    private fun getCategoriesFromDb(): List<String> {
         return ShopDatabase.getInstance(requireContext()).entryDao().getCategoryList()
     }
 

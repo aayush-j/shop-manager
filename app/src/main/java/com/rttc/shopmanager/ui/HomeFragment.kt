@@ -1,9 +1,7 @@
 package com.rttc.shopmanager.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,7 +14,7 @@ import com.rttc.shopmanager.utilities.Instances
 import com.rttc.shopmanager.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment(), EntryListListener, SearchFilterListener {
+class HomeFragment : Fragment(), EntryListListener, FilterListener {
 
     companion object {
         const val ARG_ENTRY_ID = "com.rttc.shopmanager.arg.ENTRY_ID"
@@ -50,6 +48,10 @@ class HomeFragment : Fragment(), EntryListListener, SearchFilterListener {
                 R.id.actionOptions -> NavHostFragment
                     .findNavController(this)
                     .navigate(R.id.action_homeFragment_to_appPreferences)
+
+                R.id.actionSearch -> NavHostFragment
+                    .findNavController(this)
+                    .navigate(R.id.action_homeFragment_to_searchFragment)
 
             }
             true

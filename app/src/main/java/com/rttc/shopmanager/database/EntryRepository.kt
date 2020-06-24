@@ -30,6 +30,8 @@ class EntryRepository private constructor(private val entryDao: EntryDao) {
     fun getEntriesByFilter(enquiryType: String, status: String) =
         entryDao.getEntriesByFilter(enquiryType, status)
 
+    fun searchByName(name: String) = entryDao.searchByName(name)
+
     //fun getTableCount() = entryDao.getTableCount()
 
     fun getAllCategories() = entryDao.getAllCategories()

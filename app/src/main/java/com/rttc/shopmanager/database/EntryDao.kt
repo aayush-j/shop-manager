@@ -35,6 +35,9 @@ interface EntryDao {
     @Query("SELECT id, name, enquiry_type, status, date_opened FROM register WHERE enquiry_type = :enquiryType AND status = :status ORDER BY id DESC")
     fun getEntriesByFilter(enquiryType: String, status: String): LiveData<List<EntryLite>>
 
+    @Query("SELECT id, name, enquiry_type, status, date_opened FROM register WHERE name LIKE :name")
+    fun searchByName(name: String): LiveData<List<EntryLite>>
+
     @Query("SELECT COUNT(id) from register")
     fun getTableCount(): LiveData<Int>
 

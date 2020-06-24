@@ -12,10 +12,18 @@
         <action
             android:id="@+id/action_welcomeFragment_to_categoryFragmentWelcome"
             app:destination="@id/categoryFragmentWelcome" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_restoreFragment"
+            app:destination="@id/restoreFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragmentWelcome"
         android:name="com.rttc.shopmanager.onboarding.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/restoreFragment"
+        android:name="com.rttc.shopmanager.onboarding.RestoreFragment"
+        android:label="fragment_data_manager"
+        tools:layout="@layout/fragment_restore" />
 </navigation>

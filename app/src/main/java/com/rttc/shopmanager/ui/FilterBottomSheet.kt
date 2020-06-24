@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FilterBottomSheet(
-    private val filterListener: SearchFilterListener,
+    private val filterListener: FilterListener,
     private var enquiryType: String?,
     private var statusType: String?
 ) : BottomSheetDialogFragment() {

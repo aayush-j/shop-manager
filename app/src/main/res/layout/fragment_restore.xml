@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    tools:context=".onboarding.RestoreFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        style="?attr/textAppearanceHeadline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_m"
+        android:text="Restore"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/tvRestoreFiles"
+        app:layout_constraintStart_toStartOf="@+id/tvRestoreFiles" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRestoreFiles"
+        style="?attr/textAppearanceBody1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_m"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Backup files found\nCreated on 15 Jun 2020" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStartRestore"
+        style="@style/DefaultButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:backgroundTint="?attr/colorAccent"
+        android:text="Restore data"
+        app:layout_constraintStart_toStartOf="@+id/tvRestoreFiles"
+        app:layout_constraintTop_toBottomOf="@+id/tvRestoreFiles" />
+</androidx.constraintlayout.widget.ConstraintLayout>

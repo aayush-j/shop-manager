@@ -10,7 +10,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //UIHelper.setStatusBarLight(this)
-        DatabaseHelper.verifyStoragePermissions(this)
     }
 }

@@ -41,8 +41,7 @@ class AppPreferences: PreferenceFragmentCompat() {
         val backupPref = findPreference<Preference>(getString(R.string.pref_create_backup))
         backupPref?.summary = preferences.getString(backupPref?.key, "No backup created")
         backupPref?.setOnPreferenceClickListener {
-            val permission = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            if (permission == PackageManager.PERMISSION_GRANTED) {
+            if (DatabaseHelper.isStoragePermissionsGranted(requireContext())) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Warning")
                     .setMessage("Your previous backup will be replaced by current one")
@@ -67,8 +66,7 @@ class AppPreferences: PreferenceFragmentCompat() {
 
         val restorePref = findPreference<Preference>(getString(R.string.pref_restore_backup))
         restorePref?.setOnPreferenceClickListener {
-            val permission = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-            if (permission == PackageManager.PERMISSION_GRANTED) {
+            if (DatabaseHelper.isStoragePermissionsGranted(requireContext())) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Warning")
                     .setMessage("Your current data will be replaced by backup data")
@@ -134,7 +132,7 @@ class AppPreferences: PreferenceFragmentCompat() {
             msg = msg + "OS Version: ${Build.VERSION.RELEASE}\n" +
                     "Device: ${Build.BRAND} ${Build.MODEL}\n" +
                     "Manufacturer: ${Build.MANUFACTURER}\n\n" +
-                    "Your thoughts:\n"
+                    "Your thoughts: "
         } catch (e: Exception) {
             e.printStackTrace()
         }
