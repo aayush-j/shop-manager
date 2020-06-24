@@ -14,7 +14,10 @@
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true">
 
-        <activity android:name=".OnBoardingActivity"></activity>
+        <activity
+            android:name=".OnBoardingActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -25,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
