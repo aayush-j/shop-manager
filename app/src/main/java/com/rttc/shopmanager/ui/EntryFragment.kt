@@ -246,13 +246,12 @@ class EntryFragment : Fragment(), View.OnClickListener {
 
     private fun emailCustomer(it: Entry) {
         if (!TextUtils.isEmpty(it.email)) {
-            val sendIntent: Intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                data = Uri.parse("mailto:")
-                type = "text/plain"
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.apply {
+                type = "message/rfc822"
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(it.email))
-                putExtra(Intent.EXTRA_SUBJECT, arrayOf("Regarding Enquiry for ${it.enquiryType}"))
-                putExtra(Intent.EXTRA_TEXT, "Thank you for your enquiry")
+                putExtra(Intent.EXTRA_SUBJECT, "Re: Enquiry regarding ${it.enquiryType}")
+                putExtra(Intent.EXTRA_TEXT, "Thank you for contacting us.")
             }
             try {
                 val shareIntent = Intent.createChooser(sendIntent, null)

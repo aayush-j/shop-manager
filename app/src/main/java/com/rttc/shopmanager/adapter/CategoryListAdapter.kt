@@ -6,32 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rttc.shopmanager.R
 import com.rttc.shopmanager.database.Category
 
-class CategoryListAdapter(private val appContext: Context, private val listener: CategoryListListener)
-    : RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>() {
+class CategoryListAdapter(appContext: Context, private val listener: CategoryListListener)
+    : ListAdapter<Category, CategoryListAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
-    private var categories = emptyList<Category>()
     private var inflater: LayoutInflater = LayoutInflater.from(appContext)
-
-    fun setItems(categoryList: List<Category>) {
-        this.categories = categoryList
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val rootView = inflater.inflate(R.layout.category_list_item, parent, false)
         return CategoryViewHolder(rootView)
     }
 
-    override fun getItemCount(): Int {
-        return categories.size
-    }
-
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bindView(categories[position])
+        holder.bindView(getItem(position))
     }
 
     inner class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -43,6 +35,16 @@ class CategoryListAdapter(private val appContext: Context, private val listener:
             btnDelete.setOnClickListener {
                 listener.onButtonClick(category)
             }
+        }
+    }
+
+    class CategoryDiffCallback: DiffUtil.ItemCallback<Category>() {
+        override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+            return oldItem.title == newItem.title
+        }
+
+        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+            return oldItem.title == newItem.title
         }
     }
 }

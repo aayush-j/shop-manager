@@ -49,7 +49,7 @@ class CategoryFragment : Fragment(), CategoryListListener {
         }
 
         categoryViewModel.categories.observe(viewLifecycleOwner, Observer { list ->
-            categoryListAdapter.setItems(list)
+            categoryListAdapter.submitList(list)
         })
 
         btnAddCategory?.setOnClickListener {
