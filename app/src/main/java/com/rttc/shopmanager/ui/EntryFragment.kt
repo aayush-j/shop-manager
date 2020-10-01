@@ -51,7 +51,8 @@ class EntryFragment : Fragment(), View.OnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
         }
 
-        setButtonListeners()
+        tvListeners();
+        buttonListeners();
         entryViewModel.entry.observe(viewLifecycleOwner, Observer { entry ->
             if (entry != null) {
                 recEntry = entry
@@ -71,19 +72,13 @@ class EntryFragment : Fragment(), View.OnClickListener {
             }
         })
     }
-
-    private fun setButtonListeners() {
-        btnDelete.setOnClickListener(this)
-        btnEdit.setOnClickListener(this)
-        btnShare.setOnClickListener(this)
-        btnCloseEnquiry.setOnClickListener(this)
-
+    
+    private fun tvListeners(){
         tvEntryContactPrim.setOnClickListener(this)
         tvEntryContactSec.setOnClickListener(this)
-        btnWhatsAppPrim.setOnClickListener(this)
-        btnWhatsAppSec.setOnClickListener(this)
         tvEntryEmail.setOnClickListener(this)
     }
+    
 
     private fun populateUi(entry: Entry) {
         entry.let {
@@ -188,7 +183,17 @@ class EntryFragment : Fragment(), View.OnClickListener {
             }
         }
     }
-
+        
+        
+    private fun buttonListeners() {
+        btnDelete.setOnClickListener(this)
+        btnEdit.setOnClickListener(this)
+        btnShare.setOnClickListener(this)
+        btnCloseEnquiry.setOnClickListener(this)
+        btnWhatsAppPrim.setOnClickListener(this)
+        btnWhatsAppSec.setOnClickListener(this)
+    }
+    
     private fun displayNumberSelectorDialog() {
         recEntry?.let {
             val numbers = arrayOf(it.primaryContact, it.secondaryContact)
