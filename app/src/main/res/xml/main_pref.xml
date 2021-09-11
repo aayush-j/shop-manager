@@ -9,7 +9,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Database (experimental)">
+        android:title="Database (coming soon on android R and S)">
         <Preference
             android:key="@string/pref_create_backup"
             android:title="Create backup"

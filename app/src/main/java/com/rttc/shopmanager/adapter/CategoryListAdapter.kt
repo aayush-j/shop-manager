@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rttc.shopmanager.R
 import com.rttc.shopmanager.database.Category
 
-class CategoryListAdapter(appContext: Context, private val listener: CategoryListListener)
-    : ListAdapter<Category, CategoryListAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
+class CategoryListAdapter(appContext: Context, private val listener: CategoryListListener) :
+    ListAdapter<Category, CategoryListAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
     private var inflater: LayoutInflater = LayoutInflater.from(appContext)
 
@@ -26,7 +26,7 @@ class CategoryListAdapter(appContext: Context, private val listener: CategoryLis
         holder.bindView(getItem(position))
     }
 
-    inner class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvCategoryName)
         private val btnDelete = itemView.findViewById<ImageView>(R.id.btnDeleteCategory)
 
@@ -38,7 +38,7 @@ class CategoryListAdapter(appContext: Context, private val listener: CategoryLis
         }
     }
 
-    class CategoryDiffCallback: DiffUtil.ItemCallback<Category>() {
+    class CategoryDiffCallback : DiffUtil.ItemCallback<Category>() {
         override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
             return oldItem.title == newItem.title
         }

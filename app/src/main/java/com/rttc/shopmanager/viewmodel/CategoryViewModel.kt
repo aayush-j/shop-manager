@@ -12,7 +12,7 @@ class CategoryViewModel(
     private val entryRepository: EntryRepository
 ) : ViewModel() {
 
-    val categories: LiveData<List<Category>> = entryRepository.getAllCategories()
+    val categories: LiveData<List<Category>> = entryRepository.getCategoryList()
 
     fun insert(category: Category) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -23,7 +23,7 @@ class CategoryViewModel(
     fun delete(category: Category) {
         viewModelScope.launch(Dispatchers.IO) {
             entryRepository.deleteCategory(category)
-            entryRepository.deleteAllByCategory(category.title)
+            entryRepository.deleteCategoryList(category.title)
         }
     }
 }

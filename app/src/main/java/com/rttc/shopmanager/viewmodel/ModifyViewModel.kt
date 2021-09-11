@@ -1,5 +1,7 @@
 package com.rttc.shopmanager.viewmodel
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rttc.shopmanager.database.Entry
@@ -7,12 +9,13 @@ import com.rttc.shopmanager.database.EntryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ModifyViewModel(
-    private val entryRepository: EntryRepository,
-    private val entryId: Long
-) : ViewModel() {
+class ModifyViewModel(private val entryRepository: EntryRepository) : ViewModel() {
 
-    fun getEntry() = entryRepository.getEntryById(entryId)
+    val entryId = MutableLiveData<Long>(-1)
+
+    val entry = Transformations.switchMap(entryId) {
+        entryRepository.getEntryById(it)
+    }
 
     fun insertEntry(entry: Entry) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -22,7 +25,9 @@ class ModifyViewModel(
 
     fun updateEntry(entry: Entry) {
         viewModelScope.launch(Dispatchers.IO) {
-            entryRepository.update(entry)
+            entryRepository.updateEntry(entry)
         }
     }
+
+    val categoryList = entryRepository.getCategoryList()
 }

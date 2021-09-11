@@ -1,28 +1,50 @@
 package com.rttc.shopmanager.onboarding
 
-import android.Manifest
+import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.rttc.shopmanager.MainActivity
 import com.rttc.shopmanager.R
-import com.rttc.shopmanager.utilities.DatabaseHelper
+import com.rttc.shopmanager.ShopApplication
+import com.rttc.shopmanager.utilities.DatabaseHelperActivity
+import com.rttc.shopmanager.utilities.LOG
+import com.rttc.shopmanager.utilities.OSUtils
+import com.rttc.shopmanager.utilities.PREF_ONBOARDING
 import kotlinx.android.synthetic.main.fragment_welcome.*
+import javax.inject.Inject
 
 class WelcomeFragment : Fragment() {
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
-    companion object {
-        const val STORAGE_REQUEST_CODE = 10
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        (requireContext().applicationContext as ShopApplication).shopComponent.inject(this)
+
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                LOG(result.toString())
+                if (result.resultCode == Activity.RESULT_OK) {
+                    sharedPreferences
+                        .edit()
+                        .putBoolean(PREF_ONBOARDING, true)
+                        .apply()
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    requireActivity().finish()
+                }
+            }
     }
 
     override fun onCreateView(
@@ -35,43 +57,23 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        btnWelcomeLoadBackup?.isEnabled = OSUtils.isDataBackupAvailable()
+
         val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_right)
         btnWelcomeCategory?.startAnimation(animation)
         btnWelcomeLoadBackup?.startAnimation(animation)
 
         btnWelcomeCategory?.setOnClickListener {
-            NavHostFragment.findNavController(this)
-                .navigate(R.id.action_welcomeFragment_to_categoryFragmentWelcome)
+            findNavController().navigate(R.id.action_welcomeFragment_to_categoryFragmentWelcome)
         }
 
         btnWelcomeLoadBackup?.setOnClickListener {
-            val storagePermissions = arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+            val intent = Intent(context, DatabaseHelperActivity::class.java)
+            intent.putExtra(
+                DatabaseHelperActivity.EXTRA_ACTION_TYPE,
+                DatabaseHelperActivity.ACTION_RESTORE
             )
-            if (DatabaseHelper.isStoragePermissionsGranted(requireContext()))
-                it.findNavController().navigate(R.id.action_welcomeFragment_to_restoreFragment)
-            else
-                requestPermissions(storagePermissions, STORAGE_REQUEST_CODE)
+            activityResultLauncher.launch(intent)
         }
     }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            STORAGE_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    NavHostFragment.findNavController(this).navigate(R.id.action_welcomeFragment_to_restoreFragment)
-                else
-                    showToast("Please provide storage permissions")
-            }
-        }
-    }
-
-    private fun showToast(msg: String) = Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-
 }

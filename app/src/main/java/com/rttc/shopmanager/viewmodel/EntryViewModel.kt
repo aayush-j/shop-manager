@@ -1,29 +1,45 @@
 package com.rttc.shopmanager.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.rttc.shopmanager.database.Entry
 import com.rttc.shopmanager.database.EntryRepository
+import com.rttc.shopmanager.ui.ModifyFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
-class EntryViewModel(
-    private val entryRepository: EntryRepository,
-    entryId: Long
-) : ViewModel() {
+class EntryViewModel(private val entryRepository: EntryRepository) : ViewModel() {
 
-    val entry: LiveData<Entry> = entryRepository.getEntryById(entryId)
+    val entId = MutableLiveData<Long>(-1)
+
+    private val receivedEntry: LiveData<Entry> = Transformations.switchMap(entId) {
+        entryRepository.getEntryById(it)
+    }
+
+    val entry: LiveData<Entry> = Transformations.switchMap(receivedEntry) { newEntry ->
+        newEntry?.let {
+            val calendar = Calendar.getInstance()
+            if (it.dateOpened == null) {
+                it.dateOpened = calendar.time
+                updateEntry(it)
+            }
+            if (it.status == ModifyFragment.STATUS_CLOSED && it.dateClosed == null) {
+                it.status = ModifyFragment.STATUS_OPEN
+                updateEntry(it)
+            }
+        }
+        MutableLiveData(newEntry)
+    }
 
     fun updateEntry(entry: Entry) {
         viewModelScope.launch(Dispatchers.IO) {
-            entryRepository.update(entry)
+            entryRepository.updateEntry(entry)
         }
     }
 
     fun deleteEntry(entry: Entry) {
         viewModelScope.launch(Dispatchers.IO) {
-            entryRepository.delete(entry)
+            entryRepository.deleteEntry(entry)
         }
     }
 
