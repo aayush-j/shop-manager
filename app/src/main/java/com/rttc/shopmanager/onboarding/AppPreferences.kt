@@ -1,21 +1,40 @@
 package com.rttc.shopmanager.onboarding
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.rttc.shopmanager.BuildConfig
 import com.rttc.shopmanager.R
+import com.rttc.shopmanager.SplashActivity
 import com.rttc.shopmanager.utilities.DatabaseHelperActivity
+import com.rttc.shopmanager.utilities.LOG
 import com.rttc.shopmanager.utilities.OSUtils
 
-class AppPreferences: PreferenceFragmentCompat() {
+class AppPreferences : PreferenceFragmentCompat() {
 
     private var backupPref: Preference? = null
     private var restorePref: Preference? = null
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                LOG(result.toString())
+                if (result.resultCode == Activity.RESULT_OK) {
+                    startActivity(Intent(requireContext(), SplashActivity::class.java))
+                    requireActivity().finish()
+                }
+            }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,7 +53,10 @@ class AppPreferences: PreferenceFragmentCompat() {
         backupPref = findPreference(getString(R.string.pref_create_backup))
         backupPref?.setOnPreferenceClickListener {
             val intent = Intent(context, DatabaseHelperActivity::class.java)
-            intent.putExtra(DatabaseHelperActivity.EXTRA_ACTION_TYPE, DatabaseHelperActivity.ACTION_BACKUP)
+            intent.putExtra(
+                DatabaseHelperActivity.EXTRA_ACTION_TYPE,
+                DatabaseHelperActivity.ACTION_BACKUP
+            )
             startActivity(intent)
             true
         }
@@ -47,8 +69,11 @@ class AppPreferences: PreferenceFragmentCompat() {
         restorePref = findPreference<Preference>(getString(R.string.pref_restore_backup))
         restorePref?.setOnPreferenceClickListener {
             val intent = Intent(context, DatabaseHelperActivity::class.java)
-            intent.putExtra(DatabaseHelperActivity.EXTRA_ACTION_TYPE, DatabaseHelperActivity.ACTION_RESTORE)
-            startActivity(intent)
+            intent.putExtra(
+                DatabaseHelperActivity.EXTRA_ACTION_TYPE,
+                DatabaseHelperActivity.ACTION_RESTORE
+            )
+            activityResultLauncher.launch(intent)
             true
         }
 

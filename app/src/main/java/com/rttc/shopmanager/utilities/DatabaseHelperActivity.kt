@@ -18,6 +18,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+/*
+* Database backup and restore logic updated to work with scoped storage
+* Reference: https://gavingt.medium.com/refactoring-my-backup-and-restore-feature-to-comply-with-scoped-storage-e2b6c792c3b
+* */
+
 class DatabaseHelperActivity : AppCompatActivity() {
     @Inject
     lateinit var shopDatabase: ShopDatabase
@@ -90,7 +95,6 @@ class DatabaseHelperActivity : AppCompatActivity() {
     }
 
     private fun startRestore(restoreFileUri: Uri) {
-        shopDatabase.close()
         var result = false
         lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -117,7 +121,6 @@ class DatabaseHelperActivity : AppCompatActivity() {
     }
 
     private fun startBackup(backupFileUri: Uri) {
-        shopDatabase.close()
         var result = false
         lifecycleScope.launch(Dispatchers.IO) {
             try {
