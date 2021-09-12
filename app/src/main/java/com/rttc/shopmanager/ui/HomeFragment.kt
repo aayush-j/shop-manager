@@ -1,27 +1,39 @@
 package com.rttc.shopmanager.ui
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rttc.shopmanager.R
+import com.rttc.shopmanager.ShopApplication
 import com.rttc.shopmanager.adapter.EntryListAdapter
 import com.rttc.shopmanager.adapter.EntryListListener
+import com.rttc.shopmanager.database.EntryRepository
 import com.rttc.shopmanager.utilities.Instances
 import com.rttc.shopmanager.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import javax.inject.Inject
 
-class HomeFragment : Fragment(), EntryListListener, FilterListener {
+class HomeFragment : Fragment(), EntryListListener {
+
+    @Inject
+    lateinit var entryRepository: EntryRepository
 
     companion object {
         const val ARG_ENTRY_ID = "com.rttc.shopmanager.arg.ENTRY_ID"
     }
 
-    private val homeViewModel by viewModels<HomeViewModel> {
-        Instances.provideHomeViewModelFactory(requireContext())
+    private val homeViewModel by activityViewModels<HomeViewModel> {
+        Instances.provideHomeViewModelFactory(entryRepository)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireContext().applicationContext as ShopApplication).shopComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -37,22 +49,13 @@ class HomeFragment : Fragment(), EntryListListener, FilterListener {
         homeActionBar?.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
                 R.id.actionFilterResults -> {
-                    val bottomSheet = FilterBottomSheet(
-                        this,
-                        homeViewModel.enquiryType.value,
-                        homeViewModel.statusType.value
-                    )
+                    val bottomSheet = FilterBottomSheet()
                     bottomSheet.show(parentFragmentManager, "filter_sheet")
                 }
 
-                R.id.actionOptions -> NavHostFragment
-                    .findNavController(this)
-                    .navigate(R.id.action_homeFragment_to_appPreferences)
+                R.id.actionOptions -> findNavController().navigate(R.id.action_homeFragment_to_appPreferences)
 
-                R.id.actionSearch -> NavHostFragment
-                    .findNavController(this)
-                    .navigate(R.id.action_homeFragment_to_searchFragment)
-
+                R.id.actionSearch -> findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             }
             true
         }
@@ -63,7 +66,7 @@ class HomeFragment : Fragment(), EntryListListener, FilterListener {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        homeViewModel.entryList.observe(viewLifecycleOwner, Observer { list ->
+        homeViewModel.entryList.observe(viewLifecycleOwner, { list ->
             list?.let {
                 entryListAdapter.setItems(it)
                 homeActionBar?.title =
@@ -77,20 +80,13 @@ class HomeFragment : Fragment(), EntryListListener, FilterListener {
         })
 
         fabNewEntry?.setOnClickListener {
-            NavHostFragment.findNavController(this)
-                .navigate(R.id.action_homeFragment_to_modifyFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_modifyFragment)
         }
     }
 
     override fun onItemClick(entryId: Long) {
         val bundle = Bundle()
         bundle.putLong(ARG_ENTRY_ID, entryId)
-        NavHostFragment.findNavController(this)
-            .navigate(R.id.action_homeFragment_to_entryFragment, bundle)
-    }
-
-    override fun applyFilter(enquiryType: String, status: String) {
-        homeViewModel.enquiryType.value = enquiryType
-        homeViewModel.statusType.value = status
+        findNavController().navigate(R.id.action_homeFragment_to_entryFragment, bundle)
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -25,8 +26,8 @@ class EntryListAdapter(
 ) : ListAdapter<EntryLite, RecyclerView.ViewHolder>(EntryAdapterDiffCallback()) {
 
     companion object {
-        const val TYPE_ENTRY = 1
-        const val TYPE_FOOTER = 2
+        const val ITEM_TYPE_ENTRY = 1
+        const val ITEM_TYPE_FOOTER = 2
     }
 
     private val inflater: LayoutInflater = LayoutInflater.from(appContext)
@@ -35,7 +36,7 @@ class EntryListAdapter(
         CoroutineScope(Dispatchers.Default).launch {
             val items =
                 if (entryList.isNotEmpty())
-                    entryList + listOf(EntryLite(-1, "", "", "", null, TYPE_FOOTER))
+                    entryList + listOf(EntryLite(-1, "", "", "", null, ITEM_TYPE_FOOTER))
                 else
                     entryList
             withContext(Dispatchers.Main) {
@@ -49,7 +50,7 @@ class EntryListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_ENTRY) {
+        return if (viewType == ITEM_TYPE_ENTRY) {
             val view = inflater.inflate(R.layout.entry_item, parent, false)
             EntryViewHolder(view)
         } else {
@@ -59,7 +60,7 @@ class EntryListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == TYPE_ENTRY)
+        if (getItemViewType(position) == ITEM_TYPE_ENTRY)
             (holder as EntryViewHolder).bindView(getItem(position))
     }
 
@@ -79,11 +80,13 @@ class EntryListAdapter(
 
             if (entry.status == ModifyFragment.STATUS_CLOSED) {
                 tvName.setTextColor(appContext.getColor(R.color.colorClosedStroke))
-                tvType.background = appContext.getDrawable(R.drawable.enquiry_closed_tag)
+                tvType.background =
+                    AppCompatResources.getDrawable(appContext, R.drawable.enquiry_closed_tag)
                 tvType.setTextColor(appContext.getColor(R.color.colorClosedStroke))
             } else {
                 tvName.setTextColor(appContext.getColor(R.color.colorOnSurface))
-                tvType.background = appContext.getDrawable(R.drawable.item_type_tag)
+                tvType.background =
+                    AppCompatResources.getDrawable(appContext, R.drawable.item_type_tag)
                 tvType.setTextColor(appContext.getColor(R.color.colorTypeStroke))
             }
 

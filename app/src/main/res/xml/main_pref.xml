@@ -9,14 +9,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Database (experimental)">
+        android:title="Database">
         <Preference
             android:key="@string/pref_create_backup"
             android:title="Create backup"
             android:icon="@drawable/ic_backup"/>
         <Preference
             android:key="@string/pref_restore_backup"
-            android:title="Restore from backup"
+            android:title="Restore from backup (restart required)"
             android:icon="@drawable/ic_restore"/>
     </PreferenceCategory>
 
@@ -24,7 +24,7 @@
         android:title="Testing">
         <SwitchPreference
             android:key="@string/pref_testing_enabled"
-            android:title="Enable random data"
+            android:title="Enable dummy data"
             android:icon="@drawable/ic_shuffle"/>
     </PreferenceCategory>
 

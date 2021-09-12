@@ -9,36 +9,37 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.rttc.shopmanager.R
+import com.rttc.shopmanager.ShopApplication
+import com.rttc.shopmanager.database.Category
 import com.rttc.shopmanager.database.Entry
-import com.rttc.shopmanager.database.ShopDatabase
+import com.rttc.shopmanager.database.EntryRepository
 import com.rttc.shopmanager.utilities.Instances
 import com.rttc.shopmanager.utilities.SelfTesting
+import com.rttc.shopmanager.utilities.toastMessage
 import com.rttc.shopmanager.viewmodel.ModifyViewModel
 import kotlinx.android.synthetic.main.fragment_modify.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
 
 class ModifyFragment : Fragment() {
 
+    @Inject
+    lateinit var entryRepository: EntryRepository
+
     private val modifyViewModel by viewModels<ModifyViewModel> {
-        Instances.provideModifyViewModelFactory(requireContext(), arguments?.getLong(HomeFragment.ARG_ENTRY_ID) ?: -1)
+        Instances.provideModifyViewModelFactory(entryRepository)
     }
+
+    private var createdEntry = Entry()
 
     companion object {
         const val WHATSAPP_PRIM = "primary"
@@ -48,54 +49,62 @@ class ModifyFragment : Fragment() {
         const val STATUS_CLOSED = "closed"
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireContext().applicationContext as ShopApplication).shopComponent.inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        modifyViewModel.entryId.value = arguments?.getLong(HomeFragment.ARG_ENTRY_ID) ?: -1
         return inflater.inflate(R.layout.fragment_modify, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(IO).launch {
-            setCategoriesToSpinner()
-        }
+        modifyViewModel.categoryList.observe(viewLifecycleOwner, { list ->
+            list?.let {
+                addCategoriesToSpinner(it)
+            }
+        })
 
         modifyActionBar?.setNavigationOnClickListener {
-            NavHostFragment.findNavController(this).popBackStack()
+            findNavController().popBackStack()
         }
 
         if (PreferenceManager
                 .getDefaultSharedPreferences(requireContext())
-                .getBoolean(getString(R.string.pref_testing_enabled), false))
+                .getBoolean(getString(R.string.pref_testing_enabled), false)
+        ) {
             modifyActionBar?.inflateMenu(R.menu.testing_menu)
-        else
+        } else {
             modifyActionBar?.menu
+        }
 
         modifyActionBar?.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.actionRandomData -> setupData(SelfTesting.getRandomEntry())
+            if (it.itemId == R.id.actionRandomData) {
+                setupData(SelfTesting.getRandomEntry())
             }
             true
         }
 
-        var newEntry = Entry()
-        modifyViewModel.getEntry().observe(viewLifecycleOwner, Observer{entry ->
-            if (entry != null) {
-                modifyActionBar?.title = "Edit enquiry"
+        modifyViewModel.entry.observe(viewLifecycleOwner, { entry ->
+            modifyActionBar?.title = if (entry != null) {
                 setupData(entry)
-                newEntry = entry
+                createdEntry = entry
+                "Edit enquiry"
+            } else {
+                "New enquiry"
             }
-            else
-                modifyActionBar?.title = "New enquiry"
         })
 
         etPrimContact.doOnTextChanged { text, _, _, _ ->
             if (text?.length!! != 10) {
                 displayError(tilPrimContact, true)
-            }
-            else {
+            } else {
                 displayError(tilPrimContact, false)
             }
         }
@@ -103,28 +112,28 @@ class ModifyFragment : Fragment() {
         etSecContact.doOnTextChanged { text, _, _, _ ->
             if (text?.length!! != 10 && text.isNotEmpty()) {
                 displayError(tilSecContact, true)
-            }
-            else {
+            } else {
                 displayError(tilSecContact, false)
             }
         }
 
         etEmail.doOnTextChanged { text, _, _, _ ->
-            if (text?.isNotEmpty()!! && !android.util.Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+            if (text?.isNotEmpty()!! && !android.util.Patterns.EMAIL_ADDRESS.matcher(text)
+                    .matches()
+            ) {
                 displayError(tilEmail, true)
-            }
-            else {
+            } else {
                 displayError(tilEmail, false)
             }
         }
 
         btnAddCategoryExt.setOnClickListener {
-            NavHostFragment.findNavController(this).navigate(R.id.action_modifyFragment_to_categoryFragment)
+            findNavController().navigate(R.id.action_modifyFragment_to_categoryFragment)
         }
-        
+
         btnSaveDetails.setOnClickListener {
             if (isDataValid() && isRadioValid()) {
-                newEntry.apply {
+                createdEntry.apply {
                     name = etName.text.toString().trim()
                     address = etAddress.text.toString().trim()
                     primaryContact = etPrimContact.text.toString().trim()
@@ -138,54 +147,48 @@ class ModifyFragment : Fragment() {
                     enquiryType = spinnerEnquiryType.text.toString()
                     enquiryDetails = etEnquiryDetail.text.toString().trim()
                 }
+
                 if (arguments != null) {
-                    modifyViewModel.updateEntry(newEntry)
-                    Toast.makeText(requireContext(), "Enquiry Updated", Toast.LENGTH_SHORT).show()
-                }
-                else {
-                    newEntry.status = STATUS_OPEN
+                    modifyViewModel.updateEntry(createdEntry)
+                    toastMessage("Enquiry Updated")
+                } else {
                     val calendar = Calendar.getInstance()
                     calendar.timeZone = TimeZone.getTimeZone("IST")
-                    newEntry.dateOpened = calendar.time
-                    modifyViewModel.insertEntry(newEntry)
-                    Toast.makeText(requireContext(), "Enquiry Added", Toast.LENGTH_SHORT).show()
+                    createdEntry.apply {
+                        status = STATUS_OPEN
+                        dateOpened = calendar.time
+                    }
+                    modifyViewModel.insertEntry(createdEntry)
+                    toastMessage("Enquiry Added")
                 }
-                it.findNavController().popBackStack()
-
+                findNavController().popBackStack()
                 hideSoftKeyboard(it)
             }
         }
     }
 
-    private suspend fun setCategoriesToSpinner() {
-        val categories = getCategoriesFromDb()
-        withContext(Dispatchers.Main) {
-            addCategoriesToSpinner(categories)
-        }
-    }
-
-    private fun addCategoriesToSpinner(categories: List<String>) {
+    private fun addCategoriesToSpinner(categories: List<Category>) {
         if (categories.isNotEmpty()) {
+            val categoryList = mutableListOf<String>()
+            categories.forEach {
+                categoryList.add(it.title)
+            }
             val arrayAdapter = ArrayAdapter(
                 requireContext(),
                 R.layout.spinner_item,
-                categories
+                categoryList
             )
             spinnerEnquiryType?.isEnabled = true
             spinnerEnquiryType?.setAdapter(arrayAdapter)
-            spinnerEnquiryType?.setText(categories[0], false)
-        }
-        else {
+            spinnerEnquiryType?.setText(categoryList[0], false)
+        } else {
             spinnerEnquiryType?.isEnabled = false
         }
     }
 
-    private fun getCategoriesFromDb(): List<String> {
-        return ShopDatabase.getInstance(requireContext()).entryDao().getCategoryList()
-    }
-
     private fun hideSoftKeyboard(view: View) {
-        val inputMethodManager = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.applicationWindowToken, 0)
     }
 
@@ -214,18 +217,12 @@ class ModifyFragment : Fragment() {
         etEnquiryDetail.setText(entry.enquiryDetails)
     }
 
-
-    private fun isDataValid(): Boolean {
-        if (isTextEmpty(etName, tilName)
+    private fun isDataValid() = !(isTextEmpty(etName, tilName)
             || isTextEmpty(etAddress, tilAddress)
             || isSpinnerEmpty(spinnerEnquiryType, tilEnquiryType)
             || !isEmailValid()
             || !isPrimaryContactValid()
-            || !isSecondaryContactValid()
-        )
-            return false
-        return true
-    }
+            || !isSecondaryContactValid())
 
     private fun isEmailValid(): Boolean {
         val email = etEmail.editableText.toString()
@@ -238,9 +235,8 @@ class ModifyFragment : Fragment() {
         }
     }
 
-    private fun isEmailAddressValid(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
+    private fun isEmailAddressValid(email: String) =
+        android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     private fun isPrimaryContactValid(): Boolean {
         val number = etPrimContact.editableText.toString()
@@ -264,16 +260,19 @@ class ModifyFragment : Fragment() {
         }
     }
 
-    private fun isSpinnerEmpty(spinnerEnquiryType: AutoCompleteTextView?, tilEnquiryType: TextInputLayout?): Boolean {
+    private fun isSpinnerEmpty(
+        spinnerEnquiryType: AutoCompleteTextView?,
+        tilEnquiryType: TextInputLayout?
+    ) =
         if (TextUtils.isEmpty(spinnerEnquiryType?.editableText.toString())) {
             displayError(tilEnquiryType, true)
-            return true
+            true
+        } else {
+            false
         }
-        return false
-    }
 
-    private fun isTextEmpty(editText: TextInputEditText?, textInputLayout: TextInputLayout?): Boolean {
-        return if (TextUtils.isEmpty(editText?.editableText.toString())) {
+    private fun isTextEmpty(editText: TextInputEditText?, textInputLayout: TextInputLayout?) =
+        if (TextUtils.isEmpty(editText?.editableText.toString())) {
             displayError(textInputLayout, true)
             scrollToError(textInputLayout)
             true
@@ -281,20 +280,19 @@ class ModifyFragment : Fragment() {
             displayError(textInputLayout, false)
             false
         }
-    }
 
     private fun displayError(textInputLayout: TextInputLayout?, option: Boolean) {
         if (option) {
             textInputLayout?.isErrorEnabled = true
             textInputLayout?.error = "${textInputLayout?.hint} is invalid"
-        }
-        else
+        } else {
             textInputLayout?.isErrorEnabled = false
+        }
     }
 
     private fun scrollToError(errorView: TextInputLayout?) {
         errorView?.let {
-            svFragmentModify.smoothScrollTo(errorView.scrollX, errorView.scrollY)
+            svFragmentModify.smoothScrollTo(it.scrollX, it.scrollY)
         }
     }
 }

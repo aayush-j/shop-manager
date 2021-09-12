@@ -10,7 +10,7 @@ data class EntryLite(
     var enquiry_type: String,
     var status: String,
     var date_opened: Date?,
-    @Ignore var item_type: Int = EntryListAdapter.TYPE_ENTRY
+    @Ignore var item_type: Int = EntryListAdapter.ITEM_TYPE_ENTRY
 ) {
     constructor() : this(0, "", "", "", null)
 }

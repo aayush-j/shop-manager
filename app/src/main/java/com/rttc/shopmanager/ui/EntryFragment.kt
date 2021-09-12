@@ -1,26 +1,30 @@
 package com.rttc.shopmanager.ui
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rttc.shopmanager.R
+import com.rttc.shopmanager.ShopApplication
 import com.rttc.shopmanager.database.Entry
+import com.rttc.shopmanager.database.EntryRepository
 import com.rttc.shopmanager.utilities.ENTRY_DATE_FORMAT
 import com.rttc.shopmanager.utilities.Instances
-import com.rttc.shopmanager.utilities.LOG_PREFIX
+import com.rttc.shopmanager.utilities.LOG
+import com.rttc.shopmanager.utilities.toastMessage
 import com.rttc.shopmanager.viewmodel.EntryViewModel
 import kotlinx.android.synthetic.main.entry_enquiry_card.*
 import kotlinx.android.synthetic.main.entry_options_card.*
@@ -28,19 +32,39 @@ import kotlinx.android.synthetic.main.entry_personal_card.*
 import kotlinx.android.synthetic.main.fragment_entry.*
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class EntryFragment : Fragment(), View.OnClickListener {
 
+    @Inject
+    lateinit var entryRepository: EntryRepository
+
     private val entryViewModel by viewModels<EntryViewModel> {
-        Instances.provideEntryViewModelFactory(requireContext(), arguments?.getLong(HomeFragment.ARG_ENTRY_ID) ?: -1)
+        Instances.provideEntryViewModelFactory(entryRepository)
     }
 
-    private var recEntry: Entry? = null
+    private val clipBoardCopyListener = View.OnLongClickListener {
+        val clipBoard =
+            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val text = (it as TextView).text
+        val clipData = ClipData.newPlainText("Content", text)
+        clipBoard.setPrimaryClip(clipData)
+        toastMessage("Copied to clipboard")
+        true
+    }
+
+    private lateinit var recEntry: Entry
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireContext().applicationContext as ShopApplication).shopComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        entryViewModel.entId.value = arguments?.getLong(HomeFragment.ARG_ENTRY_ID) ?: -1
         return inflater.inflate(R.layout.fragment_entry, container, false)
     }
 
@@ -48,28 +72,24 @@ class EntryFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         entryActionBar?.setNavigationOnClickListener {
-            NavHostFragment.findNavController(this).popBackStack()
+            findNavController().popBackStack()
         }
 
         setButtonListeners()
-        entryViewModel.entry.observe(viewLifecycleOwner, Observer { entry ->
-            if (entry != null) {
-                recEntry = entry
-                entry.let {
-                    val calendar = Calendar.getInstance()
-                    if (it.dateOpened == null) {
-                        it.dateOpened = calendar.time
-                        entryViewModel.updateEntry(it)
-                    }
-
-                    if (it.status == ModifyFragment.STATUS_CLOSED && it.dateClosed == null) {
-                        it.status = ModifyFragment.STATUS_OPEN
-                        entryViewModel.updateEntry(it)
-                    }
-                }
-                populateUi(entry)
+        setCopyToClipboardListeners()
+        entryViewModel.entry.observe(viewLifecycleOwner, { entry ->
+            entry?.let {
+                recEntry = it
+                populateUi()
             }
         })
+    }
+
+    private fun setCopyToClipboardListeners() {
+        tvEntryAddress.setOnLongClickListener(clipBoardCopyListener)
+        tvEntryContactPrim.setOnLongClickListener(clipBoardCopyListener)
+        tvEntryContactSec.setOnLongClickListener(clipBoardCopyListener)
+        tvEntryEmail.setOnLongClickListener(clipBoardCopyListener)
     }
 
     private fun setButtonListeners() {
@@ -85,8 +105,8 @@ class EntryFragment : Fragment(), View.OnClickListener {
         tvEntryEmail.setOnClickListener(this)
     }
 
-    private fun populateUi(entry: Entry) {
-        entry.let {
+    private fun populateUi() {
+        recEntry.let {
             entryActionBar?.title = it.name
             tvEntryAddress.text = it.address
             tvEntryContactPrim.text = it.primaryContact
@@ -97,11 +117,13 @@ class EntryFragment : Fragment(), View.OnClickListener {
             tvEntryOpenDate.text = dateOpened
             tvEntryStatus.text = it.status
 
-            if (!TextUtils.isEmpty(it.email))
-                makeViewsVisible(tvEntryEmail, it.email)
+            if (!TextUtils.isEmpty(it.email)) {
+                setVisibleWithText(tvEntryEmail, it.email)
+            }
 
-            if (!TextUtils.isEmpty(it.secondaryContact))
-                makeViewsVisible(tvEntryContactSec, it.secondaryContact)
+            if (!TextUtils.isEmpty(it.secondaryContact)) {
+                setVisibleWithText(tvEntryContactSec, it.secondaryContact)
+            }
 
             when (it.whatsAppContact) {
                 ModifyFragment.WHATSAPP_PRIM -> {
@@ -118,36 +140,38 @@ class EntryFragment : Fragment(), View.OnClickListener {
                 }
             }
 
-            if (it.status == ModifyFragment.STATUS_CLOSED){
-                makeViewsVisible(tvEntryClosedDate, "Closed on ${sdf.format(it.dateClosed!!)}")
-                tvEntryStatus.background = requireContext().getDrawable(R.drawable.enquiry_closed_tag)
+            if (it.status == ModifyFragment.STATUS_CLOSED) {
+                setVisibleWithText(tvEntryClosedDate, "Closed on ${sdf.format(it.dateClosed!!)}")
+                tvEntryStatus.background =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.enquiry_closed_tag)
                 tvEntryStatus.setTextColor(requireContext().getColor(R.color.colorClosedStroke))
                 btnCloseEnquiry.text = "Reopen Enquiry"
-            }
-            else{
-                makeViewsGone(tvEntryClosedDate)
-                tvEntryStatus.background = requireContext().getDrawable(R.drawable.enquiry_open_tag)
+            } else {
+                setViewGone(tvEntryClosedDate)
+                tvEntryStatus.background =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.enquiry_open_tag)
                 tvEntryStatus.setTextColor(requireContext().getColor(R.color.colorOpenStroke))
                 btnCloseEnquiry.text = "Close Enquiry"
             }
 
-            if (!TextUtils.isEmpty(it.enquiryDetails))
-                makeViewsVisible(tvEntryDetail, it.enquiryDetails)
+            if (!TextUtils.isEmpty(it.enquiryDetails)) {
+                setVisibleWithText(tvEntryDetail, it.enquiryDetails)
+            }
         }
     }
 
-    private fun makeViewsVisible(textView: TextView?, tvText: String) {
+    private fun setVisibleWithText(textView: TextView?, tvText: String) {
         textView?.visibility = View.VISIBLE
         textView?.text = tvText
     }
 
-    private fun makeViewsGone(textView: TextView?) {
+    private fun setViewGone(textView: TextView?) {
         textView?.visibility = View.GONE
     }
 
     override fun onClick(v: View?) {
-        recEntry?.let {
-            when(v?.id) {
+        recEntry.let {
+            when (v?.id) {
                 R.id.btnDelete -> deleteEntry(it)
 
                 R.id.btnShare -> shareDetails(it)
@@ -155,10 +179,13 @@ class EntryFragment : Fragment(), View.OnClickListener {
                 R.id.btnEdit -> {
                     val bundle = Bundle()
                     bundle.putLong(HomeFragment.ARG_ENTRY_ID, it.id)
-                    this.findNavController().navigate(R.id.action_entryFragment_to_modifyFragment, bundle)
+                    findNavController().navigate(
+                        R.id.action_entryFragment_to_modifyFragment,
+                        bundle
+                    )
                 }
 
-                R.id.tvEntryEmail -> emailCustomer(it)
+                R.id.tvEntryEmail -> emailCustomer(it.email, it.enquiryType)
 
                 R.id.tvEntryContactPrim -> callCustomer(it.primaryContact)
 
@@ -171,33 +198,15 @@ class EntryFragment : Fragment(), View.OnClickListener {
                 R.id.btnCloseEnquiry -> {
                     if (it.status == ModifyFragment.STATUS_OPEN) {
                         btnCloseEnquiry.text = "Reopen Enquiry"
-                        it.status = ModifyFragment.STATUS_CLOSED
-                        Calendar.getInstance().let {calendar ->
-                            calendar.timeZone = TimeZone.getTimeZone("IST")
-                            it.dateClosed = calendar.time
-                        }
-                    }
-                    else {
+                        entryViewModel.closeEntry(it)
+                    } else {
                         btnCloseEnquiry.text = "Close Enquiry"
-                        it.status = ModifyFragment.STATUS_OPEN
+                        entryViewModel.openEntry(it)
                     }
-                    entryViewModel.updateEntry(it)
                 }
 
-                else -> Log.d(LOG_PREFIX, "No button pressed")
+                else -> LOG("No button pressed")
             }
-        }
-    }
-
-    private fun displayNumberSelectorDialog() {
-        recEntry?.let {
-            val numbers = arrayOf(it.primaryContact, it.secondaryContact)
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Please select a number")
-                .setItems(numbers) { _, which ->
-                    callCustomer(numbers[which])
-                }
-                .show()
         }
     }
 
@@ -210,24 +219,33 @@ class EntryFragment : Fragment(), View.OnClickListener {
             }
             .setPositiveButton("Yes") { _, _ ->
                 entryViewModel.deleteEntry(entry)
-                this.findNavController().popBackStack()
+                findNavController().popBackStack()
             }
             .show()
     }
 
     private fun whatsAppCustomer(numberToSend: String) {
-        val sendIntent = Intent().apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("https://wa.me/91$numberToSend")
+        val whatsAppUrl = "https://api.whatsapp.com/send?phone=+91$numberToSend"
+        if (isPackageInstalled("com.whatsapp")) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(whatsAppUrl)
+            startActivity(intent)
+        } else {
+            toastMessage("WhatsApp is not installed")
         }
-        if (sendIntent.resolveActivity(requireContext().packageManager) != null) {
-            try {
-                startActivity(sendIntent)
-            }
-            catch (e: Exception) {
-                displayToast("WhatsApp is not installed")
-            }
+    }
+
+    private fun isPackageInstalled(packageName: String): Boolean {
+        try {
+            requireContext().packageManager.getPackageInfo(
+                packageName,
+                PackageManager.GET_ACTIVITIES
+            )
+            return true
+        } catch (e: PackageManager.NameNotFoundException) {
+            LOG("$packageName not found!!")
         }
+        return false
     }
 
     private fun callCustomer(contactNumber: String) {
@@ -238,31 +256,28 @@ class EntryFragment : Fragment(), View.OnClickListener {
         try {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
-        }
-        catch (e: Exception) {
-            Log.d(LOG_PREFIX, e.message ?: "emailCustomer() unknown exception")
+        } catch (e: Exception) {
+            LOG(e.message ?: "callCustomer() unknown exception")
         }
     }
 
-    private fun emailCustomer(it: Entry) {
-        if (!TextUtils.isEmpty(it.email)) {
+    private fun emailCustomer(email: String, enquiryType: String) {
+        if (!TextUtils.isEmpty(email)) {
             val sendIntent = Intent(Intent.ACTION_SEND)
             sendIntent.apply {
                 type = "message/rfc822"
-                putExtra(Intent.EXTRA_EMAIL, arrayOf(it.email))
-                putExtra(Intent.EXTRA_SUBJECT, "Re: Enquiry regarding ${it.enquiryType}")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+                putExtra(Intent.EXTRA_SUBJECT, "Re: Enquiry regarding $enquiryType")
                 putExtra(Intent.EXTRA_TEXT, "Thank you for contacting us.")
             }
             try {
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 startActivity(shareIntent)
+            } catch (e: Exception) {
+                LOG(e.message ?: "emailCustomer() unknown exception")
             }
-            catch (e: Exception) {
-                Log.d(LOG_PREFIX, e.message ?: "emailCustomer() unknown exception")
-            }
-        }
-        else {
-            displayToast("Please add an email address")
+        } else {
+            toastMessage("Please add an email address")
             return
         }
     }
@@ -273,7 +288,8 @@ class EntryFragment : Fragment(), View.OnClickListener {
         if (!TextUtils.isEmpty(it.secondaryContact))
             contact.plus(", ").plus(it.secondaryContact)
 
-        val message = "Enquiry for ${it.enquiryType}\nName: ${it.name}\nContact: $contact\nAddress: ${it.address}"
+        val message =
+            "Enquiry for ${it.enquiryType}\nName: ${it.name}\nContact: $contact\nAddress: ${it.address}"
 
         if (!TextUtils.isEmpty(it.enquiryDetails))
             message.plus("\nDetails: ${it.enquiryDetails}")
@@ -286,12 +302,8 @@ class EntryFragment : Fragment(), View.OnClickListener {
         try {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
-        }
-        catch (e: Exception) {
-            Log.d(LOG_PREFIX, e.message ?: "emailCustomer() unknown exception")
+        } catch (e: Exception) {
+            LOG(e.message ?: "shareDetails() unknown exception")
         }
     }
-
-    private fun displayToast(message: String) =
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 }

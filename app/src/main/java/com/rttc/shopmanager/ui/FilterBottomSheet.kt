@@ -4,23 +4,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.rttc.shopmanager.R
-import com.rttc.shopmanager.database.ShopDatabase
+import com.rttc.shopmanager.ShopApplication
+import com.rttc.shopmanager.database.Category
+import com.rttc.shopmanager.database.EntryRepository
+import com.rttc.shopmanager.utilities.Instances
 import com.rttc.shopmanager.utilities.TYPE_ALL
+import com.rttc.shopmanager.viewmodel.CategoryViewModel
+import com.rttc.shopmanager.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.bottom_sheet_filter.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class FilterBottomSheet(
-    private val filterListener: FilterListener,
-    private var enquiryType: String?,
-    private var statusType: String?
-) : BottomSheetDialogFragment() {
+private val TAG = FilterBottomSheet::class.simpleName
+
+class FilterBottomSheet : BottomSheetDialogFragment() {
+
+    @Inject
+    lateinit var entryRepository: EntryRepository
+
+    private val categoryViewModel by viewModels<CategoryViewModel> {
+        Instances.provideCategoryViewModelFactory(entryRepository)
+    }
+
+    private val homeViewModel by activityViewModels<HomeViewModel> {
+        Instances.provideHomeViewModelFactory(entryRepository)
+    }
+
+    private lateinit var enquiryType: String
+    private lateinit var statusType: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireContext().applicationContext as ShopApplication).shopComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,9 +53,19 @@ class FilterBottomSheet(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(IO).launch {
-            setCategoriesToChips()
-        }
+        categoryViewModel.categories.observe(this, { categories ->
+            categories?.let {
+                addViewsToTypeSelector(it)
+            }
+        })
+
+        homeViewModel.enquiryType.observe(this, {
+            enquiryType = it
+        })
+
+        homeViewModel.statusType.observe(this, {
+            statusType = it
+        })
 
         cgTypeSelector.setOnCheckedChangeListener { _, checkedId ->
             enquiryType = if (checkedId == -1) {
@@ -56,35 +86,23 @@ class FilterBottomSheet(
         }
 
         btnApplyFilter.setOnClickListener {
-            filterListener.applyFilter(enquiryType?: TYPE_ALL, statusType?: TYPE_ALL)
+            homeViewModel.applyFilter(enquiryType, statusType)
             dismiss()
         }
 
         btnResetFilter.setOnClickListener {
-            filterListener.applyFilter(TYPE_ALL, TYPE_ALL)
+            homeViewModel.applyFilter(TYPE_ALL, TYPE_ALL)
             dismiss()
         }
     }
 
-    private suspend fun setCategoriesToChips() {
-        val categories = getCategoriesFromDb()
-        withContext(Main) {
-            addViewsToTypeSelector(categories)
-        }
-    }
-
-    private suspend fun getCategoriesFromDb(): List<String> {
-        return ShopDatabase.getInstance(requireContext()).entryDao().getCategoryList()
-    }
-
-    private fun addViewsToTypeSelector(types: List<String>) {
+    private fun addViewsToTypeSelector(categories: List<Category>) {
         var i = 100
-        types.forEach {
+        categories.forEach {
             val chip = createChipWithId(i++)
-            chip.text = it
+            chip.text = it.title
             cgTypeSelector.addView(chip)
-            if (it.equals(enquiryType, true))
-                chip.isChecked = true
+            chip.isChecked = it.title.equals(enquiryType, true)
         }
 
         val status = arrayOf(ModifyFragment.STATUS_OPEN, ModifyFragment.STATUS_CLOSED)
@@ -92,8 +110,7 @@ class FilterBottomSheet(
             val chip = createChipWithId(i++)
             chip.text = it
             cgStatusSelector.addView(chip)
-            if (it.equals(statusType, true))
-                chip.isChecked = true
+            chip.isChecked = it.equals(statusType, true)
         }
     }
 
