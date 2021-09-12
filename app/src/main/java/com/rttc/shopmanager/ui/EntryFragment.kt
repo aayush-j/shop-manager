@@ -1,11 +1,13 @@
 package com.rttc.shopmanager.ui
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +21,10 @@ import com.rttc.shopmanager.R
 import com.rttc.shopmanager.ShopApplication
 import com.rttc.shopmanager.database.Entry
 import com.rttc.shopmanager.database.EntryRepository
-import com.rttc.shopmanager.utilities.*
+import com.rttc.shopmanager.utilities.ENTRY_DATE_FORMAT
+import com.rttc.shopmanager.utilities.Instances
+import com.rttc.shopmanager.utilities.LOG
+import com.rttc.shopmanager.utilities.toastMessage
 import com.rttc.shopmanager.viewmodel.EntryViewModel
 import kotlinx.android.synthetic.main.entry_enquiry_card.*
 import kotlinx.android.synthetic.main.entry_options_card.*
@@ -36,6 +41,16 @@ class EntryFragment : Fragment(), View.OnClickListener {
 
     private val entryViewModel by viewModels<EntryViewModel> {
         Instances.provideEntryViewModelFactory(entryRepository)
+    }
+
+    private val clipBoardCopyListener = View.OnLongClickListener {
+        val clipBoard =
+            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val text = (it as TextView).text
+        val clipData = ClipData.newPlainText("Content", text)
+        clipBoard.setPrimaryClip(clipData)
+        toastMessage("Copied to clipboard")
+        true
     }
 
     private lateinit var recEntry: Entry
@@ -61,12 +76,20 @@ class EntryFragment : Fragment(), View.OnClickListener {
         }
 
         setButtonListeners()
+        setCopyToClipboardListeners()
         entryViewModel.entry.observe(viewLifecycleOwner, { entry ->
             entry?.let {
                 recEntry = it
                 populateUi()
             }
         })
+    }
+
+    private fun setCopyToClipboardListeners() {
+        tvEntryAddress.setOnLongClickListener(clipBoardCopyListener)
+        tvEntryContactPrim.setOnLongClickListener(clipBoardCopyListener)
+        tvEntryContactSec.setOnLongClickListener(clipBoardCopyListener)
+        tvEntryEmail.setOnLongClickListener(clipBoardCopyListener)
     }
 
     private fun setButtonListeners() {
@@ -175,19 +198,14 @@ class EntryFragment : Fragment(), View.OnClickListener {
                 R.id.btnCloseEnquiry -> {
                     if (it.status == ModifyFragment.STATUS_OPEN) {
                         btnCloseEnquiry.text = "Reopen Enquiry"
-                        it.status = ModifyFragment.STATUS_CLOSED
-                        Calendar.getInstance().let { calendar ->
-                            calendar.timeZone = TimeZone.getTimeZone("IST")
-                            it.dateClosed = calendar.time
-                        }
+                        entryViewModel.closeEntry(it)
                     } else {
                         btnCloseEnquiry.text = "Close Enquiry"
-                        it.status = ModifyFragment.STATUS_OPEN
+                        entryViewModel.openEntry(it)
                     }
-                    entryViewModel.updateEntry(it)
                 }
 
-                else -> Log.d(LOG_PREFIX, "No button pressed")
+                else -> LOG("No button pressed")
             }
         }
     }
@@ -239,7 +257,7 @@ class EntryFragment : Fragment(), View.OnClickListener {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         } catch (e: Exception) {
-            Log.d(LOG_PREFIX, e.message ?: "emailCustomer() unknown exception")
+            LOG(e.message ?: "callCustomer() unknown exception")
         }
     }
 
@@ -285,7 +303,7 @@ class EntryFragment : Fragment(), View.OnClickListener {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         } catch (e: Exception) {
-            Log.d(LOG_PREFIX, e.message ?: "emailCustomer() unknown exception")
+            LOG(e.message ?: "shareDetails() unknown exception")
         }
     }
 }

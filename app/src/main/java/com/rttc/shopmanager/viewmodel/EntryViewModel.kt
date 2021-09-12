@@ -31,16 +31,29 @@ class EntryViewModel(private val entryRepository: EntryRepository) : ViewModel()
         MutableLiveData(newEntry)
     }
 
-    fun updateEntry(entry: Entry) {
+    fun updateEntry(entry: Entry) =
         viewModelScope.launch(Dispatchers.IO) {
             entryRepository.updateEntry(entry)
         }
-    }
 
-    fun deleteEntry(entry: Entry) {
+    fun deleteEntry(entry: Entry) =
         viewModelScope.launch(Dispatchers.IO) {
             entryRepository.deleteEntry(entry)
         }
-    }
 
+    fun closeEntry(entry: Entry) =
+        entry.apply {
+            status = ModifyFragment.STATUS_CLOSED
+            Calendar.getInstance().let { calendar ->
+                calendar.timeZone = TimeZone.getTimeZone("IST")
+                dateClosed = calendar.time
+            }
+            updateEntry(this)
+        }
+
+    fun openEntry(entry: Entry) =
+        entry.apply {
+            status = ModifyFragment.STATUS_OPEN
+            updateEntry(this)
+        }
 }
